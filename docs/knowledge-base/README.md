@@ -29,3 +29,4 @@
 | 01 | [本地开发环境配置与依赖避坑指南](01-environment-setup.md) | Ubuntu 环境下 Docker、Docker Compose、Go 1.24 配置与国内镜像加速 | 已完成 |
 | 02 | [北极星单机版部署与 tRPC 接入实践](02-polaris-standalone-setup.md) | PolarisMesh standalone 容器部署、配置中心热更新与路由规则验证 | 已完成 |
 | 03 | [轻量化可观测体系搭建经验](03-observability-quickstart.md) | Loki + Vector + Prometheus + Jaeger 资源控制与 Trace-to-Log 联动 | 已完成 |
+| 04 | [生产环境选型分析：K3s vs Docker Compose 深度对比](04-k3s-vs-docker-compose-production.md) | 深入剖析生产环境下 K3s 相比 Docker Compose 的高可用、平滑升级、弹性伸缩优势与双模演进路线 | 已完成 |
