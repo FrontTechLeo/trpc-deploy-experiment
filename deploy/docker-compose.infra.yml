@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  polaris:
+    image: polarismesh/polaris-server:latest
+    container_name: polaris-standalone
+    restart: always
+    ports:
+      - "8090:8090" # Web 控制台 (Console)
+      - "8091:8091" # gRPC 注册发现端口
+      - "8093:8093" # HTTP 配置与服务接口
+    environment:
+      - POLARIS_MODE=standalone
+    volumes:
+      - polaris_data:/root/polaris/data
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: local-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+
+  mysql:
+    image: mysql:8.0
+    container_name: local-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: gametool
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  polaris_data:
+  redis_data:
+  mysql_data:
