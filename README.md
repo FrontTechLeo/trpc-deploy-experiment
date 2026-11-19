@@ -38,6 +38,12 @@
   - 质量监控（SRE 黄金信号）、分布式链路追踪（OTel+Jaeger）、轻量结构化日志（Loki+Vector）
   - 本地环境硬件资源预算（3.5~4.5GB 内存占用评估）
   - 核心架构决策矩阵 (ADR) 与分阶段推进路线图 (Phase 1 ~ Phase 5)
+- [本地部署“偏向生产环境”的技术选型决策指南 (Local-to-Production Parity)](docs/local_production_parity_tech_selection.md)
+  - 生产同构原则：杜绝“本地能跑线上崩掉”，本地全面采用生产级技术规范
+  - 集群底座：K3s（标准 Kubernetes 资源对象、Pod 健康探针、Deployment 滚动发布）
+  - 服务治理与网关：PolarisMesh（真实注册心跳、配置热更、流量染色） + trpc-gateway（Protobuf 契约解包）
+  - 可观测性：Prometheus + Grafana + OpenTelemetry + Jaeger + Loki（实现生产级 Trace-to-Log 联动）
+  - 单机硬件预算：单机 16GB 物理机实测仅需占用 3.2~4.6GB 内存，兼顾生产级规范与单机自闭环
 - [生产环境微服务与治理体系技术选型决策指南 (Production ADR Guide)](docs/production_technology_selection_guide.md)
   - 真实生产高可用（HA）、多节点容灾、故障秒级自愈与弹性扩缩容（HPA）
   - 容器集群（托管K8s vs 高可用K3s）、服务治理（PolarisMesh vs Nacos）、网关层（APISIX+trpc-gateway）
