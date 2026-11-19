@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # ClickHouse: 极致 OLAP 列式数仓，面向海量日志、用户埋点、多维聚合与报表分析
+  clickhouse:
+    image: clickhouse/clickhouse-server:24-alpine
+    container_name: local-clickhouse
+    restart: always
+    ports:
+      - "8123:8123" # HTTP API 接口与原生 Web 查询界面
+      - "9000:9000" # Native TCP 客户端连接端口
+    environment:
+      CLICKHOUSE_DB: analytics
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+      - clickhouse_log:/var/log/clickhouse-server
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  # TiDB - PD (Placement Driver): 集群大脑，负责元数据存储与调度
+  pd:
+    image: pingcap/pd:v8.1.0
+    container_name: local-tidb-pd
+    restart: always
+    command:
+      - --name=pd
+      - --data-dir=/data/pd
+      - --client-urls=http://0.0.0.0:2379
+      - --peer-urls=http://0.0.0.0:2380
+      - --advertise-client-urls=http://pd:2379
+      - --advertise-peer-urls=http://pd:2380
+      - --initial-cluster=pd=http://pd:2380
+    ports:
+      - "2379:2379" # PD Client 端口 / TiDB Dashboard 后台
+    volumes:
+      - tidb_pd_data:/data/pd
+
+  # TiDB - TiKV: 分布式强一致事务 Key-Value 存储引擎
+  tikv:
+    image: pingcap/tikv:v8.1.0
+    container_name: local-tidb-tikv
+    restart: always
+    depends_on:
+      - pd
+    command:
+      - --addr=0.0.0.0:20160
+      - --advertise-addr=tikv:20160
+      - --data-dir=/data/tikv
+      - --pd-endpoints=pd:2379
+    volumes:
+      - tidb_tikv_data:/data/tikv
+
+  # TiDB - Server: 无状态 SQL 计算层，兼容 MySQL 5.7/8.0 协议
+  tidb:
+    image: pingcap/tidb:v8.1.0
+    container_name: local-tidb-server
+    restart: always
+    depends_on:
+      - pd
+      - tikv
+    command:
+      - --store=tikv
+      - --path=pd:2379
+    ports:
+      - "4000:4000"   # MySQL 协议连接端口 (客户端可直接用 mysql -h 127.0.0.1 -P 4000 -u root 连接)
+      - "10080:10080" # TiDB Status / 监控指标端口
+
+volumes:
+  clickhouse_data:
+  clickhouse_log:
+  tidb_pd_data:
+  tidb_tikv_data:
