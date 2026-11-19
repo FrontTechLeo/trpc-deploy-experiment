@@ -15,6 +15,8 @@
   *涵盖前端多阶段 Dockerfile 极简打包（< 25MB）、Nginx SPA 防缓存与长期静态缓存配置、K3s 滚动更新与秒级回滚（kubectl rollout undo）、前后端反向代理防跨域全套现成实战方案。*
 - [**市面主流前端可视化平台评测：构建、发布与工程治理 (Frontend WebUI Platforms & Governance)**](frontend_webui_platforms_and_governance.md)  
   *针对告别纯脚本化诉求，深度评测开源自建版 Vercel (Coolify/Dokploy)、云原生标准控制台 (ArgoCD + Rollouts Dashboard) 以及环境治理专家 (Zadig)，提供带 Web UI 的构建、版本树回滚、PR预览环境与灰度看板全套选型对比。*
+- [**深度对比：Coolify 与 ArgoCD + Argo Rollouts Dashboard**](coolify_vs_argocd_rollouts_deep_dive.md)  
+  *深入剖析两者的本质定位与功能上限：轻量一体化源码PaaS (Coolify) vs 工业级云原生持续交付与自动灰度分析引擎 (ArgoCD + Rollouts)，给出功能强大度评测与生产同构落地建议。*
 - [**生产环境微服务与治理体系技术选型决策指南 (Production ADR Guide)**](production_technology_selection_guide.md)  
   *面向真实生产环境高并发、容灾高可用、弹性扩缩容、合规审计与成本控制诉求，提供容器编排、服务治理、API网关、日志监控、链路追踪、GitOps 流水线等八大维度的全景对比与落地方案。*
 

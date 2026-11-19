@@ -54,6 +54,10 @@
   - 开源自建 Vercel 标杆：Coolify（自动检测框架、PR 独立 Preview 预览环境、版本历史树一键回滚）
   - 云原生 K8s 事实标准控制台：ArgoCD + Argo Rollouts Dashboard（前端可视化拓扑大盘、金丝雀灰度流量切分大盘）
   - 微服务环境治理专家：Zadig（前端多套隔离联调自测环境动态拉起与回收）
+- [深度对比：Coolify 与 ArgoCD + Argo Rollouts Dashboard](docs/coolify_vs_argocd_rollouts_deep_dive.md)
+  - 功能差异与本质区别：全包型应用PaaS（Coolify） vs 专业级云原生交付与灰度引擎（ArgoCD+Rollouts）
+  - 功能强大度分析：灰度分流控制（10%->100%）、Prometheus 自动分析熔断（无人值守回滚）、GitOps 状态防篡改
+  - 针对当前微服务体系的最佳协同落地建议
 - [生产环境微服务与治理体系技术选型决策指南 (Production ADR Guide)](docs/production_technology_selection_guide.md)
   - 真实生产高可用（HA）、多节点容灾、故障秒级自愈与弹性扩缩容（HPA）
   - 容器集群（托管K8s vs 高可用K3s）、服务治理（PolarisMesh vs Nacos）、网关层（APISIX+trpc-gateway）
