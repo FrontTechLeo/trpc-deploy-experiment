@@ -19,6 +19,8 @@
   *针对告别纯脚本化诉求，深度评测开源自建版 Vercel (Coolify/Dokploy)、云原生标准控制台 (ArgoCD + Rollouts Dashboard) 以及环境治理专家 (Zadig)，提供带 Web UI 的构建、版本树回滚、PR预览环境与灰度看板全套选型对比。*
 - [**最佳工程闭环：可视化前端构建 (Visual CI) + ArgoCD/Rollouts 灰度治理**](visual_ci_with_argocd_rollouts_pipeline.md)  
   *彻底告别手动打包：采用“轻量 Web CI (Drone CI / Actions) 负责可视化点击与流式构建打包 + argocd-image-updater 自动联动 + Argo Rollouts 负责金丝雀灰度与 Prometheus 自动熔断”，实现 0 手动干预的端到端可视化生产闭环。*
+- [**消息队列中间件选型与 Redis 替代性深度评估 (Message Queue Selection & Redis Evaluation)**](message_queue_technology_selection.md)  
+  *深入剖析能否直接用 Redis 代替消息队列（List/PubSub/Stream 对比与内存/丢数据瓶颈），评测 NATS JetStream (纯Go极轻量 ~50MB 首选)、RabbitMQ (带Web控制台)、Kafka、RocketMQ，给出清晰的落地建议。*
 - [**深度对比：Coolify 与 ArgoCD + Argo Rollouts Dashboard**](coolify_vs_argocd_rollouts_deep_dive.md)  
   *深入剖析两者的本质定位与功能上限：轻量一体化源码PaaS (Coolify) vs 工业级云原生持续交付与自动灰度分析引擎 (ArgoCD + Rollouts)，给出功能强大度评测与生产同构落地建议。*
 - [**生产环境微服务与治理体系技术选型决策指南 (Production ADR Guide)**](production_technology_selection_guide.md)  
