@@ -9,6 +9,8 @@
 ### 1. 核心架构规划
 - [**本地部署全套 tRPC-Go 微服务与生产级治理体系最终实施方案 (Final Master Plan)**](final_execution_plan_trpc_microservices.md)  
   *【最终定稿执行方案 v2.2.0】确立以 K3s 为底座，PolarisMesh 为治理控制面，trpc-gateway 为接入网关，Prometheus/Loki/Jaeger 为可观测平台，“Drone CI 构建大盘 + ArgoCD/Rollouts 灰度自愈大盘”双大盘闭环，以及多模存储（MySQL/Redis/RabbitMQ/MinIO/MongoDB）与复杂报表套件（TiDB + ClickHouse）的六阶段实施路线图。*
+- [**DuckDB 能支撑多少级别的日志报表数据？深度容量测算与架构边界 (DuckDB Capacity & Benchmarks)**](duckdb_capacity_and_benchmarks.md)  
+  *针对 DuckDB 容量天花板的硬核技术测算：千万级（<0.1s极速舒适区）、1亿级（1秒黄金区）、10亿级（10~25秒外存溢出流式计算极限区）、Out-of-Core 绝不 OOM 原理、Parquet 压缩下推与三大架构红线禁忌。*
 - [**现代实时数仓与 OLAP 引擎全景图：除了 Doris 与 ClickHouse，还有哪些更好的选择？**](modern_data_warehouse_and_olap_landscape.md)  
   *深入探索现代大数据与分析领域的四大主流阵营：嵌入式分析神作 DuckDB (进程内零后台/直查MinIO Parquet)、新一代全场景 MPP 湖仓 StarRocks (原Doris团队进化体/多表Join天花板)、面向终端高并发交互式报表 Apache Pinot、跨异构库联邦查询 Trino (Presto)，并给出单机与生产环境选型建议。*
 - [**需不需要引入 Apache Doris 或 ClickHouse 配合 Grafana 做业务数据统计上报？ (Doris vs ClickHouse & Reporting Evaluation)**](doris_vs_clickhouse_business_analytics_guide.md)  
