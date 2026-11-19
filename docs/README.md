@@ -9,6 +9,8 @@
 ### 1. 核心架构规划
 - [**本地部署全套 tRPC-Go 微服务与生产级治理体系最终实施方案 (Final Master Plan)**](final_execution_plan_trpc_microservices.md)  
   *【最终定稿执行方案 v2.2.0】确立以 K3s 为底座，PolarisMesh 为治理控制面，trpc-gateway 为接入网关，Prometheus/Loki/Jaeger 为可观测平台，“Drone CI 构建大盘 + ArgoCD/Rollouts 灰度自愈大盘”双大盘闭环，以及多模存储（MySQL/Redis/RabbitMQ/MinIO/MongoDB）与复杂报表套件（TiDB + ClickHouse）的六阶段实施路线图。*
+- [**现代实时数仓与 OLAP 引擎全景图：除了 Doris 与 ClickHouse，还有哪些更好的选择？**](modern_data_warehouse_and_olap_landscape.md)  
+  *深入探索现代大数据与分析领域的四大主流阵营：嵌入式分析神作 DuckDB (进程内零后台/直查MinIO Parquet)、新一代全场景 MPP 湖仓 StarRocks (原Doris团队进化体/多表Join天花板)、面向终端高并发交互式报表 Apache Pinot、跨异构库联邦查询 Trino (Presto)，并给出单机与生产环境选型建议。*
 - [**需不需要引入 Apache Doris 或 ClickHouse 配合 Grafana 做业务数据统计上报？ (Doris vs ClickHouse & Reporting Evaluation)**](doris_vs_clickhouse_business_analytics_guide.md)  
   *全面剖析业务统计上报的演进路径：何时无需引入额外数仓（利用现有 MySQL 直连 Grafana 或 Prometheus 业务打点 0 内存开销）、何时必须引入专业 OLAP、Doris 与 ClickHouse 的极限性能/单机内存开销 (400MB vs 3~5GB)/多表 Join/Grafana 插件集成全景对比与选型决策。*
 - [**TiDB + ClickHouse 复杂报表与实时数仓架构设计方案 (Analytics & Reporting Architecture)**](tidb_and_clickhouse_reporting_architecture.md)  
