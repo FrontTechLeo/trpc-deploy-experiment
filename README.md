@@ -69,6 +69,11 @@
   - 为什么生产不建议全靠 Redis：削峰填谷内存瓶颈、持久化可靠性、缺少死信与延迟队列
   - 四大专业 MQ 评测：NATS JetStream (首选推荐，纯Go生态极轻 ~50MB)、RabbitMQ (带管理后台)、Kafka、RocketMQ
   - 本项目双轨落地建议：初期轻量选 Redis Stream / 生产严谨选 NATS
+- [终极对决：RabbitMQ vs Apache Kafka 深度对比与选型决策](docs/rabbitmq_vs_kafka_deep_dive.md)
+  - 核心设计哲学差异：“聪明的 Broker” (RabbitMQ) vs “愚蠢的 Broker 顺序日志” (Kafka)
+  - 开发排障差距：RabbitMQ 自带开箱即用可视化 Web 管理后台 (15672) vs Kafka 需额外自建 UI
+  - 内存与资源开销差距：RabbitMQ 极轻量 (~250MB) vs Kafka 重型 JVM (~1.5GB)
+  - 针对当前项目的最终选型决策结论：业务微服务首选 RabbitMQ
 - [行业现状深度调研：目前主流项目究竟使用什么消息队列 (MQ) 比较多？](docs/mainstream_mq_industry_analysis.md)
   - 市场占有率宏观大盘：两大霸主 (Kafka 55% + RabbitMQ 25%) + 国内电商顶流 (RocketMQ 12%) + 云原生新贵 (NATS 5%)
   - 为什么 Kafka 是大数据与日志流的唯一事实标准
