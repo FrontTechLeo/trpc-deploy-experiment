@@ -49,6 +49,11 @@
   - 生产级 Nginx 配置：HTML `no-cache` 与静态带 Hash 资源 1 年强缓存
   - K3s 滚动更新、就绪探针、一键秒级回滚 (`kubectl rollout undo`)
   - 反向代理配置彻底解决浏览器跨域（CORS）问题
+- [市面主流前端可视化平台评测：构建、发布与工程治理 (Frontend WebUI Platforms & Governance)](docs/frontend_webui_platforms_and_governance.md)
+  - 告别纯脚本化：开箱即用 Web UI 构建、发布与多版本治理平台评测
+  - 开源自建 Vercel 标杆：Coolify（自动检测框架、PR 独立 Preview 预览环境、版本历史树一键回滚）
+  - 云原生 K8s 事实标准控制台：ArgoCD + Argo Rollouts Dashboard（前端可视化拓扑大盘、金丝雀灰度流量切分大盘）
+  - 微服务环境治理专家：Zadig（前端多套隔离联调自测环境动态拉起与回收）
 - [生产环境微服务与治理体系技术选型决策指南 (Production ADR Guide)](docs/production_technology_selection_guide.md)
   - 真实生产高可用（HA）、多节点容灾、故障秒级自愈与弹性扩缩容（HPA）
   - 容器集群（托管K8s vs 高可用K3s）、服务治理（PolarisMesh vs Nacos）、网关层（APISIX+trpc-gateway）
