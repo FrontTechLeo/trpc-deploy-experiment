@@ -21,6 +21,8 @@
   *彻底告别手动打包：采用“轻量 Web CI (Drone CI / Actions) 负责可视化点击与流式构建打包 + argocd-image-updater 自动联动 + Argo Rollouts 负责金丝雀灰度与 Prometheus 自动熔断”，实现 0 手动干预的端到端可视化生产闭环。*
 - [**消息队列中间件选型与 Redis 替代性深度评估 (Message Queue Selection & Redis Evaluation)**](message_queue_technology_selection.md)  
   *深入剖析能否直接用 Redis 代替消息队列（List/PubSub/Stream 对比与内存/丢数据瓶颈），评测 NATS JetStream (纯Go极轻量 ~50MB 首选)、RabbitMQ (带Web控制台)、Kafka、RocketMQ，给出清晰的落地建议。*
+- [**行业现状深度调研：目前主流项目究竟使用什么消息队列 (MQ) 比较多？**](mainstream_mq_industry_analysis.md)  
+  *宏观市场占有率与行业格局深度分析：Kafka (大数据日志霸主 60%)、RabbitMQ (通用业务与中小微企业主力 25%)、RocketMQ (国内电商交易金融事务 12%)、NATS (云原生Go微服务新星 5%)，按业务场景精准定位选型。*
 - [**深度对比：Coolify 与 ArgoCD + Argo Rollouts Dashboard**](coolify_vs_argocd_rollouts_deep_dive.md)  
   *深入剖析两者的本质定位与功能上限：轻量一体化源码PaaS (Coolify) vs 工业级云原生持续交付与自动灰度分析引擎 (ArgoCD + Rollouts)，给出功能强大度评测与生产同构落地建议。*
 - [**生产环境微服务与治理体系技术选型决策指南 (Production ADR Guide)**](production_technology_selection_guide.md)  

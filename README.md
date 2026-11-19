@@ -69,6 +69,11 @@
   - 为什么生产不建议全靠 Redis：削峰填谷内存瓶颈、持久化可靠性、缺少死信与延迟队列
   - 四大专业 MQ 评测：NATS JetStream (首选推荐，纯Go生态极轻 ~50MB)、RabbitMQ (带管理后台)、Kafka、RocketMQ
   - 本项目双轨落地建议：初期轻量选 Redis Stream / 生产严谨选 NATS
+- [行业现状深度调研：目前主流项目究竟使用什么消息队列 (MQ) 比较多？](docs/mainstream_mq_industry_analysis.md)
+  - 市场占有率宏观大盘：两大霸主 (Kafka 55% + RabbitMQ 25%) + 国内电商顶流 (RocketMQ 12%) + 云原生新贵 (NATS 5%)
+  - 为什么 Kafka 是大数据与日志流的唯一事实标准
+  - 为什么 RabbitMQ 是中小型企业与通用微服务业务的首选主力（开箱即用 Web 管理后台）
+  - 针对 tRPC-Go + 本地 16GB 生产同构的最佳匹配建议
 - [深度对比：Coolify 与 ArgoCD + Argo Rollouts Dashboard](docs/coolify_vs_argocd_rollouts_deep_dive.md)
   - 功能差异与本质区别：全包型应用PaaS（Coolify） vs 专业级云原生交付与灰度引擎（ArgoCD+Rollouts）
   - 功能强大度分析：灰度分流控制（10%->100%）、Prometheus 自动分析熔断（无人值守回滚）、GitOps 状态防篡改
