@@ -38,6 +38,12 @@
   - 质量监控（SRE 黄金信号）、分布式链路追踪（OTel+Jaeger）、轻量结构化日志（Loki+Vector）
   - 本地环境硬件资源预算（3.5~4.5GB 内存占用评估）
   - 核心架构决策矩阵 (ADR) 与分阶段推进路线图 (Phase 1 ~ Phase 5)
+- [生产环境微服务与治理体系技术选型决策指南 (Production ADR Guide)](docs/production_technology_selection_guide.md)
+  - 真实生产高可用（HA）、多节点容灾、故障秒级自愈与弹性扩缩容（HPA）
+  - 容器集群（托管K8s vs 高可用K3s）、服务治理（PolarisMesh vs Nacos）、网关层（APISIX+trpc-gateway）
+  - 结构化日志（Loki vs ES）、链路追踪（OTel+Tempo）、监控告警（VictoriaMetrics）
+  - 生产安全交付范式：GitOps (ArgoCD) 声明式持续交付与一键 Git 回滚
+  - 推荐生产落地套餐（公有云主流套餐 vs 私有化自主可控套餐）
 
 ---
 

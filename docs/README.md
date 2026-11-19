@@ -9,6 +9,8 @@
 ### 1. 核心架构规划
 - [**本地全套微服务治理体系实施方案**](trpc_local_microservice_governance_plan.md)  
   *涵盖系统全景架构、需求生命周期规范、Protobuf 契约驱动（Schema as Code）、灰度控制分流、质量监控（SLO）、OpenTelemetry 分布式链路追踪、Grafana Loki 结构化日志、业务运营大盘、CI/CD 自动化流水线及 16GB 本地硬件资源预算与 ADR 决策矩阵。*
+- [**生产环境微服务与治理体系技术选型决策指南 (Production ADR Guide)**](production_technology_selection_guide.md)  
+  *面向真实生产环境高并发、容灾高可用、弹性扩缩容、合规审计与成本控制诉求，提供容器编排、服务治理、API网关、日志监控、链路追踪、GitOps 流水线等八大维度的全景对比与落地方案。*
 
 ### 2. 实施知识与实操经验库 (Knowledge Base)
 实施过程中的踩坑记录、环境搭建心得、配置样例与故障排查经验统一归档于 [`knowledge-base/`](knowledge-base/README.md)：
