@@ -9,6 +9,8 @@
 ### 1. 核心架构规划
 - [**本地部署全套 tRPC-Go 微服务与生产级治理体系最终实施方案 (Final Master Plan)**](final_execution_plan_trpc_microservices.md)  
   *【最终定稿执行方案 v2.2.0】确立以 K3s 为底座，PolarisMesh 为治理控制面，trpc-gateway 为接入网关，Prometheus/Loki/Jaeger 为可观测平台，“Drone CI 构建大盘 + ArgoCD/Rollouts 灰度自愈大盘”双大盘闭环，以及多模存储（MySQL/Redis/RabbitMQ/MinIO/MongoDB）与复杂报表套件（TiDB + ClickHouse）的六阶段实施路线图。*
+- [**DuckDB 分布式与多机支持深度解析：架构边界、演进形态与选型决策 (DuckDB Distributed & Multi-Node Guide)**](duckdb_distributed_and_multi_node_analysis.md)  
+  *深度剖析 DuckDB 为何原生不支持分布式、单机 Scale-Up 零网络开销性能反超多机集群的底层原理、业界三大变相多机形态（MinIO 存算分离节点池、Dask/Ray 调度编排、MotherDuck 混合云）以及何时必须坚决选择天然分布式数仓（StarRocks/ClickHouse）。*
 - [**DuckDB 能支撑多少级别的日志报表数据？深度容量测算与架构边界 (DuckDB Capacity & Benchmarks)**](duckdb_capacity_and_benchmarks.md)  
   *针对 DuckDB 容量天花板的硬核技术测算：千万级（<0.1s极速舒适区）、1亿级（1秒黄金区）、10亿级（10~25秒外存溢出流式计算极限区）、Out-of-Core 绝不 OOM 原理、Parquet 压缩下推与三大架构红线禁忌。*
 - [**现代实时数仓与 OLAP 引擎全景图：除了 Doris 与 ClickHouse，还有哪些更好的选择？**](modern_data_warehouse_and_olap_landscape.md)  
