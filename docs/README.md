@@ -7,6 +7,8 @@
 ## 目录索引
 
 ### 1. 核心架构规划
+- [**本地部署全套 tRPC-Go 微服务与生产级治理体系最终实施方案 (Final Master Plan)**](final_execution_plan_trpc_microservices.md)  
+  *【最终定稿执行方案】确立以 K3s 为底座，PolarisMesh 为治理控制面，trpc-gateway 为接入网关，Prometheus/Loki/Jaeger 为可观测平台，以及“Drone CI 可视化构建大盘 + ArgoCD/Rollouts 灰度自愈大盘”的双大盘端到端交付闭环与五阶段实施路线图。*
 - [**本地全套微服务治理体系实施方案**](trpc_local_microservice_governance_plan.md)  
   *涵盖系统全景架构、需求生命周期规范、Protobuf 契约驱动（Schema as Code）、灰度控制分流、质量监控（SLO）、OpenTelemetry 分布式链路追踪、Grafana Loki 结构化日志、业务运营大盘、CI/CD 自动化流水线及 16GB 本地硬件资源预算与 ADR 决策矩阵。*
 - [**本地部署“偏向生产环境”的技术选型决策指南 (Local-to-Production Parity)**](local_production_parity_tech_selection.md)  

@@ -30,6 +30,11 @@
 
 ## 核心方案文档索引
 
+- [**本地部署全套 tRPC-Go 微服务与生产级治理体系最终实施方案 (Final Master Plan)**](docs/final_execution_plan_trpc_microservices.md)
+  - 核心架构全景：K3s + PolarisMesh + trpc-gateway + 可观测套件 + 双大盘体系
+  - 最终确定技术选型全景矩阵、端口规划与 16GB 宿主机资源预算（总计 ~4.7GB 内存）
+  - 双大盘全流程闭环：代码提交 -> Drone CI 网页点选构建 -> 镜像自动入库 -> argocd-image-updater 自动更新 -> Argo Rollouts 10% 灰度切流 -> Prometheus 自动熔断自愈
+  - 即将启动的五阶段实施路线图 (Phase 1 ~ Phase 5)
 - [本地全套 tRPC-Go 微服务治理体系实施方案](docs/trpc_local_microservice_governance_plan.md)
   - 总体架构拓扑与数据流
   - 需求管理、版本迭代与语义化版本规范
