@@ -1,4 +1,6 @@
-.PHONY: help infra-up infra-down monitor-up monitor-down analytics-up analytics-down all-up all-down clean
+.PHONY: help infra-up infra-down monitor-up monitor-down analytics-up analytics-down all-up all-down proto-lint proto-gen migrate-up migrate-down duckdb-test clean
+
+export PATH := $(PATH):$(HOME)/Softwares/gopath/bin
 
 help:
 	@echo "tRPC-Go 本地部署环境快捷管理指令:"
@@ -10,6 +12,11 @@ help:
 	@echo "  make analytics-down- 停止复杂报表与数仓套件"
 	@echo "  make all-up        - 一键拉起全套治理、观测与基础环境"
 	@echo "  make all-down      - 停止全套环境"
+	@echo "  make proto-lint    - 执行 Protobuf 契约门禁检查 (buf lint)"
+	@echo "  make proto-gen     - 生成 Protobuf Go 代码 (buf generate)"
+	@echo "  make migrate-up    - 执行数据库版本迁移 (goose up)"
+	@echo "  make migrate-down  - 回滚上一个数据库版本迁移 (goose down)"
+	@echo "  make duckdb-test   - 测试本地 DuckDB 分析引擎"
 
 infra-up:
 	docker compose -f deploy/docker-compose.infra.yml up -d
@@ -34,3 +41,18 @@ all-up: infra-up monitor-up
 
 all-down: monitor-down infra-down
 	@echo ">>> 全套基础环境已停止"
+
+proto-lint:
+	cd proto && buf lint
+
+proto-gen:
+	cd proto && buf generate
+
+migrate-up:
+	goose -dir deploy/migrations mysql "root:root@tcp(127.0.0.1:3306)/gametool?parseTime=true" up
+
+migrate-down:
+	goose -dir deploy/migrations mysql "root:root@tcp(127.0.0.1:3306)/gametool?parseTime=true" down
+
+duckdb-test:
+	duckdb -c "SELECT 'DuckDB Local Engine' as engine, 'Ready for MinIO Parquet queries' as status;"

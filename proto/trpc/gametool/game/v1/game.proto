@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package trpc.gametool.game.v1;
+
+option go_package = "trpc.gametool.game.v1;gamev1";
+
+// GameService 游戏核心业务与事件上报契约
+service GameService {
+  rpc GetCharacter(GetCharacterRequest) returns (GetCharacterResponse);
+  rpc UpdateCharacterLevel(UpdateCharacterLevelRequest) returns (UpdateCharacterLevelResponse);
+  rpc ReportGameEvent(ReportGameEventRequest) returns (ReportGameEventResponse);
+}
+
+message GetCharacterRequest {
+  uint64 user_id = 1;
+}
+
+message CharacterInfo {
+  uint64 id = 1;
+  uint64 user_id = 2;
+  string character_name = 3;
+  int32 level = 4;
+  string attributes_json = 5;
+}
+
+message GetCharacterResponse {
+  int32 code = 1;
+  string message = 2;
+  CharacterInfo character = 3;
+}
+
+message UpdateCharacterLevelRequest {
+  uint64 user_id = 1;
+  int32 new_level = 2;
+}
+
+message UpdateCharacterLevelResponse {
+  int32 code = 1;
+  string message = 2;
+}
+
+message ReportGameEventRequest {
+  uint64 user_id = 1;
+  string event_type = 2;
+  string payload_json = 3;
+}
+
+message ReportGameEventResponse {
+  int32 code = 1;
+  string message = 2;
+}
