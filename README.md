@@ -44,6 +44,11 @@
   - 服务治理与网关：PolarisMesh（真实注册心跳、配置热更、流量染色） + trpc-gateway（Protobuf 契约解包）
   - 可观测性：Prometheus + Grafana + OpenTelemetry + Jaeger + Loki（实现生产级 Trace-to-Log 联动）
   - 单机硬件预算：单机 16GB 物理机实测仅需占用 3.2~4.6GB 内存，兼顾生产级规范与单机自闭环
+- [前端容器化打包构建、自动化部署与版本管理方案 (Frontend DevOps & CD Guide)](docs/frontend_containerization_and_cd_plan.md)
+  - 生产级多阶段 Docker 构建（极小 Nginx 镜像 < 25MB）
+  - 生产级 Nginx 配置：HTML `no-cache` 与静态带 Hash 资源 1 年强缓存
+  - K3s 滚动更新、就绪探针、一键秒级回滚 (`kubectl rollout undo`)
+  - 反向代理配置彻底解决浏览器跨域（CORS）问题
 - [生产环境微服务与治理体系技术选型决策指南 (Production ADR Guide)](docs/production_technology_selection_guide.md)
   - 真实生产高可用（HA）、多节点容灾、故障秒级自愈与弹性扩缩容（HPA）
   - 容器集群（托管K8s vs 高可用K3s）、服务治理（PolarisMesh vs Nacos）、网关层（APISIX+trpc-gateway）
