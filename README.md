@@ -74,6 +74,11 @@
   - 开发排障差距：RabbitMQ 自带开箱即用可视化 Web 管理后台 (15672) vs Kafka 需额外自建 UI
   - 内存与资源开销差距：RabbitMQ 极轻量 (~250MB) vs Kafka 重型 JVM (~1.5GB)
   - 针对当前项目的最终选型决策结论：业务微服务首选 RabbitMQ
+- [非关系型数据库 (NoSQL) 与扩展中间件完整盘点及必要性评估](docs/nosql_and_storage_middleware_evaluation.md)
+  - 当前闭环盘点：MySQL + Redis + RabbitMQ 已具备关系型、键值缓存、消息解耦完整基础
+  - 对象存储 (MinIO) 评估：云原生微服务中处理图片、视频、静态包上传防丢失的必选组件 (~150MB)
+  - 文档数据库 (MongoDB) 评估：游戏角色背包与多变动态属性的 Schema-free 存储选型 (~300MB)
+  - 资源预算核算：若纳入 MinIO 与 MongoDB，全套总内存占用约 5.4GB，宿主机依然剩余 6.5GB+ 充裕内存
 - [行业现状深度调研：目前主流项目究竟使用什么消息队列 (MQ) 比较多？](docs/mainstream_mq_industry_analysis.md)
   - 市场占有率宏观大盘：两大霸主 (Kafka 55% + RabbitMQ 25%) + 国内电商顶流 (RocketMQ 12%) + 云原生新贵 (NATS 5%)
   - 为什么 Kafka 是大数据与日志流的唯一事实标准

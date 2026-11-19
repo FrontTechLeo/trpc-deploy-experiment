@@ -23,6 +23,8 @@
   *深入剖析能否直接用 Redis 代替消息队列（List/PubSub/Stream 对比与内存/丢数据瓶颈），评测 NATS JetStream (纯Go极轻量 ~50MB 首选)、RabbitMQ (带Web控制台)、Kafka、RocketMQ，给出清晰的落地建议。*
 - [**终极对决：RabbitMQ vs Apache Kafka 深度对比与选型决策**](rabbitmq_vs_kafka_deep_dive.md)  
   *针对偏向 RabbitMQ 与 Kafka 的纠结，从设计哲学、开箱即用 Web 管理后台、单机资源开销（200MB vs 1.5GB）、动态路由与适用场景全面横向打擂台，给出明确首选结论。*
+- [**非关系型数据库 (NoSQL) 与扩展中间件完整盘点及必要性评估**](nosql_and_storage_middleware_evaluation.md)  
+  *全面评估是否缺失非关系型数据库：深度解析分布式对象存储 MinIO (解决容器多副本文件共享丢失必选 ~150MB)、文档数据库 MongoDB (游戏道具背包动态Schema选型 ~300MB)、ES搜索与时序数据库，给出包含全套组件的 5.4GB 资源承载预算。*
 - [**行业现状深度调研：目前主流项目究竟使用什么消息队列 (MQ) 比较多？**](mainstream_mq_industry_analysis.md)  
   *宏观市场占有率与行业格局深度分析：Kafka (大数据日志霸主 60%)、RabbitMQ (通用业务与中小微企业主力 25%)、RocketMQ (国内电商交易金融事务 12%)、NATS (云原生Go微服务新星 5%)，按业务场景精准定位选型。*
 - [**深度对比：Coolify 与 ArgoCD + Argo Rollouts Dashboard**](coolify_vs_argocd_rollouts_deep_dive.md)  
