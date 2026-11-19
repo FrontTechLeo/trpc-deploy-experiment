@@ -54,6 +54,11 @@
   - 开源自建 Vercel 标杆：Coolify（自动检测框架、PR 独立 Preview 预览环境、版本历史树一键回滚）
   - 云原生 K8s 事实标准控制台：ArgoCD + Argo Rollouts Dashboard（前端可视化拓扑大盘、金丝雀灰度流量切分大盘）
   - 微服务环境治理专家：Zadig（前端多套隔离联调自测环境动态拉起与回收）
+- [最佳工程闭环：可视化前端构建 (Visual CI) + ArgoCD/Rollouts 灰度治理](docs/visual_ci_with_argocd_rollouts_pipeline.md)
+  - 彻底告别手动打包镜像：解耦“可视化构建 (CI)”与“GitOps 灰度治理 (CD)”
+  - 极轻量 Web CI 引擎选型：Drone CI / Woodpecker / GitHub Actions
+  - 关键无感桥梁：`argocd-image-updater` 实现新镜像秒级自动感知与灰度触发
+  - 端到端全景：Web 界面点选构建 -> 自动多阶段打包 -> 自动金丝雀切流 -> 异常自动熔断
 - [深度对比：Coolify 与 ArgoCD + Argo Rollouts Dashboard](docs/coolify_vs_argocd_rollouts_deep_dive.md)
   - 功能差异与本质区别：全包型应用PaaS（Coolify） vs 专业级云原生交付与灰度引擎（ArgoCD+Rollouts）
   - 功能强大度分析：灰度分流控制（10%->100%）、Prometheus 自动分析熔断（无人值守回滚）、GitOps 状态防篡改
