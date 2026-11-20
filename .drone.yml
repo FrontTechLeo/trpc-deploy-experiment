@@ -31,6 +31,15 @@ steps:
       auto_tag: true
       insecure: true
 
+  - name: build-game-service
+    image: plugins/docker
+    settings:
+      registry: localhost:5000
+      repo: localhost:5000/gametool/game-service
+      dockerfile: services/game-service/Dockerfile
+      auto_tag: true
+      insecure: true
+
   - name: gitops-trigger
     image: alpine/k8s:1.30.0
     commands:

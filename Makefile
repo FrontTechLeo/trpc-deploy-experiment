@@ -66,6 +66,7 @@ duckdb-test:
 build:
 	mkdir -p bin
 	go build -o bin/auth-service ./services/auth-service/cmd/server
+	go build -o bin/game-service ./services/game-service/cmd/server
 	go build -o bin/gateway ./services/gateway/cmd/server
 
 test:
@@ -73,3 +74,6 @@ test:
 
 test-e2e:
 	./scripts/test-e2e.sh
+
+test-phase4:
+	./scripts/test-phase4.sh

@@ -19,11 +19,36 @@ import (
 
 // GameServiceService defines service.
 type GameServiceService interface {
+	// CreateCharacter 角色相关
+	CreateCharacter(ctx context.Context, req *CreateCharacterRequest) (*CreateCharacterResponse, error)
+
 	GetCharacter(ctx context.Context, req *GetCharacterRequest) (*GetCharacterResponse, error)
 
 	UpdateCharacterLevel(ctx context.Context, req *UpdateCharacterLevelRequest) (*UpdateCharacterLevelResponse, error)
+	// CreateOrder 交易与长事务 Saga 相关
+	CreateOrder(ctx context.Context, req *CreateOrderRequest) (*CreateOrderResponse, error)
 
+	ProcessPayment(ctx context.Context, req *ProcessPaymentRequest) (*ProcessPaymentResponse, error)
+	// ReportGameEvent 业务埋点与事件上报
 	ReportGameEvent(ctx context.Context, req *ReportGameEventRequest) (*ReportGameEventResponse, error)
+}
+
+func GameServiceService_CreateCharacter_Handler(svr interface{}, ctx context.Context, f server.FilterFunc) (interface{}, error) {
+	req := &CreateCharacterRequest{}
+	filters, err := f(req)
+	if err != nil {
+		return nil, err
+	}
+	handleFunc := func(ctx context.Context, reqbody interface{}) (interface{}, error) {
+		return svr.(GameServiceService).CreateCharacter(ctx, reqbody.(*CreateCharacterRequest))
+	}
+
+	var rsp interface{}
+	rsp, err = filters.Filter(ctx, req, handleFunc)
+	if err != nil {
+		return nil, err
+	}
+	return rsp, nil
 }
 
 func GameServiceService_GetCharacter_Handler(svr interface{}, ctx context.Context, f server.FilterFunc) (interface{}, error) {
@@ -62,6 +87,42 @@ func GameServiceService_UpdateCharacterLevel_Handler(svr interface{}, ctx contex
 	return rsp, nil
 }
 
+func GameServiceService_CreateOrder_Handler(svr interface{}, ctx context.Context, f server.FilterFunc) (interface{}, error) {
+	req := &CreateOrderRequest{}
+	filters, err := f(req)
+	if err != nil {
+		return nil, err
+	}
+	handleFunc := func(ctx context.Context, reqbody interface{}) (interface{}, error) {
+		return svr.(GameServiceService).CreateOrder(ctx, reqbody.(*CreateOrderRequest))
+	}
+
+	var rsp interface{}
+	rsp, err = filters.Filter(ctx, req, handleFunc)
+	if err != nil {
+		return nil, err
+	}
+	return rsp, nil
+}
+
+func GameServiceService_ProcessPayment_Handler(svr interface{}, ctx context.Context, f server.FilterFunc) (interface{}, error) {
+	req := &ProcessPaymentRequest{}
+	filters, err := f(req)
+	if err != nil {
+		return nil, err
+	}
+	handleFunc := func(ctx context.Context, reqbody interface{}) (interface{}, error) {
+		return svr.(GameServiceService).ProcessPayment(ctx, reqbody.(*ProcessPaymentRequest))
+	}
+
+	var rsp interface{}
+	rsp, err = filters.Filter(ctx, req, handleFunc)
+	if err != nil {
+		return nil, err
+	}
+	return rsp, nil
+}
+
 func GameServiceService_ReportGameEvent_Handler(svr interface{}, ctx context.Context, f server.FilterFunc) (interface{}, error) {
 	req := &ReportGameEventRequest{}
 	filters, err := f(req)
@@ -86,12 +147,24 @@ var GameServiceServer_ServiceDesc = server.ServiceDesc{
 	HandlerType: ((*GameServiceService)(nil)),
 	Methods: []server.Method{
 		{
+			Name: "/trpc.gametool.game.v1.GameService/CreateCharacter",
+			Func: GameServiceService_CreateCharacter_Handler,
+		},
+		{
 			Name: "/trpc.gametool.game.v1.GameService/GetCharacter",
 			Func: GameServiceService_GetCharacter_Handler,
 		},
 		{
 			Name: "/trpc.gametool.game.v1.GameService/UpdateCharacterLevel",
 			Func: GameServiceService_UpdateCharacterLevel_Handler,
+		},
+		{
+			Name: "/trpc.gametool.game.v1.GameService/CreateOrder",
+			Func: GameServiceService_CreateOrder_Handler,
+		},
+		{
+			Name: "/trpc.gametool.game.v1.GameService/ProcessPayment",
+			Func: GameServiceService_ProcessPayment_Handler,
 		},
 		{
 			Name: "/trpc.gametool.game.v1.GameService/ReportGameEvent",
@@ -111,12 +184,26 @@ func RegisterGameServiceService(s server.Service, svr GameServiceService) {
 
 type UnimplementedGameService struct{}
 
+// CreateCharacter 角色相关
+func (s *UnimplementedGameService) CreateCharacter(ctx context.Context, req *CreateCharacterRequest) (*CreateCharacterResponse, error) {
+	return nil, errors.New("rpc CreateCharacter of service GameService is not implemented")
+}
 func (s *UnimplementedGameService) GetCharacter(ctx context.Context, req *GetCharacterRequest) (*GetCharacterResponse, error) {
 	return nil, errors.New("rpc GetCharacter of service GameService is not implemented")
 }
 func (s *UnimplementedGameService) UpdateCharacterLevel(ctx context.Context, req *UpdateCharacterLevelRequest) (*UpdateCharacterLevelResponse, error) {
 	return nil, errors.New("rpc UpdateCharacterLevel of service GameService is not implemented")
 }
+
+// CreateOrder 交易与长事务 Saga 相关
+func (s *UnimplementedGameService) CreateOrder(ctx context.Context, req *CreateOrderRequest) (*CreateOrderResponse, error) {
+	return nil, errors.New("rpc CreateOrder of service GameService is not implemented")
+}
+func (s *UnimplementedGameService) ProcessPayment(ctx context.Context, req *ProcessPaymentRequest) (*ProcessPaymentResponse, error) {
+	return nil, errors.New("rpc ProcessPayment of service GameService is not implemented")
+}
+
+// ReportGameEvent 业务埋点与事件上报
 func (s *UnimplementedGameService) ReportGameEvent(ctx context.Context, req *ReportGameEventRequest) (*ReportGameEventResponse, error) {
 	return nil, errors.New("rpc ReportGameEvent of service GameService is not implemented")
 }
@@ -129,10 +216,17 @@ func (s *UnimplementedGameService) ReportGameEvent(ctx context.Context, req *Rep
 
 // GameServiceClientProxy defines service client proxy
 type GameServiceClientProxy interface {
+	// CreateCharacter 角色相关
+	CreateCharacter(ctx context.Context, req *CreateCharacterRequest, opts ...client.Option) (rsp *CreateCharacterResponse, err error)
+
 	GetCharacter(ctx context.Context, req *GetCharacterRequest, opts ...client.Option) (rsp *GetCharacterResponse, err error)
 
 	UpdateCharacterLevel(ctx context.Context, req *UpdateCharacterLevelRequest, opts ...client.Option) (rsp *UpdateCharacterLevelResponse, err error)
+	// CreateOrder 交易与长事务 Saga 相关
+	CreateOrder(ctx context.Context, req *CreateOrderRequest, opts ...client.Option) (rsp *CreateOrderResponse, err error)
 
+	ProcessPayment(ctx context.Context, req *ProcessPaymentRequest, opts ...client.Option) (rsp *ProcessPaymentResponse, err error)
+	// ReportGameEvent 业务埋点与事件上报
 	ReportGameEvent(ctx context.Context, req *ReportGameEventRequest, opts ...client.Option) (rsp *ReportGameEventResponse, err error)
 }
 
@@ -143,6 +237,26 @@ type GameServiceClientProxyImpl struct {
 
 var NewGameServiceClientProxy = func(opts ...client.Option) GameServiceClientProxy {
 	return &GameServiceClientProxyImpl{client: client.DefaultClient, opts: opts}
+}
+
+func (c *GameServiceClientProxyImpl) CreateCharacter(ctx context.Context, req *CreateCharacterRequest, opts ...client.Option) (*CreateCharacterResponse, error) {
+	ctx, msg := codec.WithCloneMessage(ctx)
+	defer codec.PutBackMessage(msg)
+	msg.WithClientRPCName("/trpc.gametool.game.v1.GameService/CreateCharacter")
+	msg.WithCalleeServiceName(GameServiceServer_ServiceDesc.ServiceName)
+	msg.WithCalleeApp("")
+	msg.WithCalleeServer("")
+	msg.WithCalleeService("GameService")
+	msg.WithCalleeMethod("CreateCharacter")
+	msg.WithSerializationType(codec.SerializationTypePB)
+	callopts := make([]client.Option, 0, len(c.opts)+len(opts))
+	callopts = append(callopts, c.opts...)
+	callopts = append(callopts, opts...)
+	rsp := &CreateCharacterResponse{}
+	if err := c.client.Invoke(ctx, req, rsp, callopts...); err != nil {
+		return nil, err
+	}
+	return rsp, nil
 }
 
 func (c *GameServiceClientProxyImpl) GetCharacter(ctx context.Context, req *GetCharacterRequest, opts ...client.Option) (*GetCharacterResponse, error) {
@@ -179,6 +293,46 @@ func (c *GameServiceClientProxyImpl) UpdateCharacterLevel(ctx context.Context, r
 	callopts = append(callopts, c.opts...)
 	callopts = append(callopts, opts...)
 	rsp := &UpdateCharacterLevelResponse{}
+	if err := c.client.Invoke(ctx, req, rsp, callopts...); err != nil {
+		return nil, err
+	}
+	return rsp, nil
+}
+
+func (c *GameServiceClientProxyImpl) CreateOrder(ctx context.Context, req *CreateOrderRequest, opts ...client.Option) (*CreateOrderResponse, error) {
+	ctx, msg := codec.WithCloneMessage(ctx)
+	defer codec.PutBackMessage(msg)
+	msg.WithClientRPCName("/trpc.gametool.game.v1.GameService/CreateOrder")
+	msg.WithCalleeServiceName(GameServiceServer_ServiceDesc.ServiceName)
+	msg.WithCalleeApp("")
+	msg.WithCalleeServer("")
+	msg.WithCalleeService("GameService")
+	msg.WithCalleeMethod("CreateOrder")
+	msg.WithSerializationType(codec.SerializationTypePB)
+	callopts := make([]client.Option, 0, len(c.opts)+len(opts))
+	callopts = append(callopts, c.opts...)
+	callopts = append(callopts, opts...)
+	rsp := &CreateOrderResponse{}
+	if err := c.client.Invoke(ctx, req, rsp, callopts...); err != nil {
+		return nil, err
+	}
+	return rsp, nil
+}
+
+func (c *GameServiceClientProxyImpl) ProcessPayment(ctx context.Context, req *ProcessPaymentRequest, opts ...client.Option) (*ProcessPaymentResponse, error) {
+	ctx, msg := codec.WithCloneMessage(ctx)
+	defer codec.PutBackMessage(msg)
+	msg.WithClientRPCName("/trpc.gametool.game.v1.GameService/ProcessPayment")
+	msg.WithCalleeServiceName(GameServiceServer_ServiceDesc.ServiceName)
+	msg.WithCalleeApp("")
+	msg.WithCalleeServer("")
+	msg.WithCalleeService("GameService")
+	msg.WithCalleeMethod("ProcessPayment")
+	msg.WithSerializationType(codec.SerializationTypePB)
+	callopts := make([]client.Option, 0, len(c.opts)+len(opts))
+	callopts = append(callopts, c.opts...)
+	callopts = append(callopts, opts...)
+	rsp := &ProcessPaymentResponse{}
 	if err := c.client.Invoke(ctx, req, rsp, callopts...); err != nil {
 		return nil, err
 	}

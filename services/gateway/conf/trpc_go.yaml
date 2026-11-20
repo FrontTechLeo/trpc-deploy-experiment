@@ -27,6 +27,12 @@ client:
       protocol: trpc
       target: polarismesh://trpc.gametool.auth.v1.AuthService
       timeout: 3000
+    - name: trpc.gametool.game.v1.GameService
+      namespace: Development
+      network: tcp
+      protocol: trpc
+      target: polarismesh://trpc.gametool.game.v1.GameService
+      timeout: 3000
 
 plugins:
   log:

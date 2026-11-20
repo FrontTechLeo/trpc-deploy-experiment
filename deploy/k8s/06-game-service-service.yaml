@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: game-service
+  namespace: gametool
+  labels:
+    app: game-service
+spec:
+  ports:
+    - name: trpc
+      port: 10003
+      targetPort: 10003
+    - name: admin
+      port: 10004
+      targetPort: 10004
+  selector:
+    app: game-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: game-service-canary
+  namespace: gametool
+  labels:
+    app: game-service
+spec:
+  ports:
+    - name: trpc
+      port: 10003
+      targetPort: 10003
+  selector:
+    app: game-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: game-service-stable
+  namespace: gametool
+  labels:
+    app: game-service
+spec:
+  ports:
+    - name: trpc
+      port: 10003
+      targetPort: 10003
+  selector:
+    app: game-service

@@ -4,15 +4,19 @@ package trpc.gametool.game.v1;
 
 option go_package = "github.com/FrontTechLeo/trpc-deploy-experiment/gen/go/trpc/gametool/game/v1;gamev1";
 
-// GameService 游戏核心业务与事件上报契约
+// GameService 游戏核心业务与长事务 Saga/事件驱动契约
 service GameService {
+  // 角色相关
+  rpc CreateCharacter(CreateCharacterRequest) returns (CreateCharacterResponse);
   rpc GetCharacter(GetCharacterRequest) returns (GetCharacterResponse);
   rpc UpdateCharacterLevel(UpdateCharacterLevelRequest) returns (UpdateCharacterLevelResponse);
-  rpc ReportGameEvent(ReportGameEventRequest) returns (ReportGameEventResponse);
-}
 
-message GetCharacterRequest {
-  uint64 user_id = 1;
+  // 交易与长事务 Saga 相关
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+  rpc ProcessPayment(ProcessPaymentRequest) returns (ProcessPaymentResponse);
+
+  // 业务埋点与事件上报
+  rpc ReportGameEvent(ReportGameEventRequest) returns (ReportGameEventResponse);
 }
 
 message CharacterInfo {
@@ -20,7 +24,24 @@ message CharacterInfo {
   uint64 user_id = 2;
   string character_name = 3;
   int32 level = 4;
-  string attributes_json = 5;
+  int64 coins = 5;
+  string attributes_json = 6;
+}
+
+message CreateCharacterRequest {
+  uint64 user_id = 1;
+  string character_name = 2;
+  int64 initial_coins = 3;
+}
+
+message CreateCharacterResponse {
+  int32 code = 1;
+  string message = 2;
+  CharacterInfo character = 3;
+}
+
+message GetCharacterRequest {
+  uint64 user_id = 1;
 }
 
 message GetCharacterResponse {
@@ -37,6 +58,32 @@ message UpdateCharacterLevelRequest {
 message UpdateCharacterLevelResponse {
   int32 code = 1;
   string message = 2;
+}
+
+message CreateOrderRequest {
+  uint64 user_id = 1;
+  string item_name = 2;
+  double amount = 3;
+  string channel = 4;
+}
+
+message CreateOrderResponse {
+  int32 code = 1;
+  string message = 2;
+  string order_no = 3;
+}
+
+message ProcessPaymentRequest {
+  string order_no = 1;
+  uint64 user_id = 2;
+  double amount = 3;
+  bool simulate_failure = 4; // 用于演示 Saga 失败与补偿回滚
+}
+
+message ProcessPaymentResponse {
+  int32 code = 1;
+  string message = 2;
+  string status = 3; // "PAID", "FAILED", "COMPENSATED"
 }
 
 message ReportGameEventRequest {

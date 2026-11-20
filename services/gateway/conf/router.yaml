@@ -15,10 +15,48 @@ router:
       - service: trpc.gametool.auth.v1.AuthService
         rewrite: /trpc.gametool.auth.v1.AuthService/ValidateToken
 
+  # GameService 游戏核心与长事务 Saga 路由
+  - method: /api/v1/game/character/create
+    id: /api/v1/game/character/create
+    target_service:
+      - service: trpc.gametool.game.v1.GameService
+        rewrite: /trpc.gametool.game.v1.GameService/CreateCharacter
+  - method: /api/v1/game/character/get
+    id: /api/v1/game/character/get
+    target_service:
+      - service: trpc.gametool.game.v1.GameService
+        rewrite: /trpc.gametool.game.v1.GameService/GetCharacter
+  - method: /api/v1/game/character/level
+    id: /api/v1/game/character/level
+    target_service:
+      - service: trpc.gametool.game.v1.GameService
+        rewrite: /trpc.gametool.game.v1.GameService/UpdateCharacterLevel
+  - method: /api/v1/game/order/create
+    id: /api/v1/game/order/create
+    target_service:
+      - service: trpc.gametool.game.v1.GameService
+        rewrite: /trpc.gametool.game.v1.GameService/CreateOrder
+  - method: /api/v1/game/order/pay
+    id: /api/v1/game/order/pay
+    target_service:
+      - service: trpc.gametool.game.v1.GameService
+        rewrite: /trpc.gametool.game.v1.GameService/ProcessPayment
+  - method: /api/v1/game/event/report
+    id: /api/v1/game/event/report
+    target_service:
+      - service: trpc.gametool.game.v1.GameService
+        rewrite: /trpc.gametool.game.v1.GameService/ReportGameEvent
+
 client:
   - name: trpc.gametool.auth.v1.AuthService
     namespace: Development
     target: polarismesh://trpc.gametool.auth.v1.AuthService
+    protocol: trpc
+    network: tcp
+    timeout: 3000
+  - name: trpc.gametool.game.v1.GameService
+    namespace: Development
+    target: polarismesh://trpc.gametool.game.v1.GameService
     protocol: trpc
     network: tcp
     timeout: 3000

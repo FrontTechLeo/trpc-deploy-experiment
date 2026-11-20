@@ -22,64 +22,21 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type GetCharacterRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetCharacterRequest) Reset() {
-	*x = GetCharacterRequest{}
-	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetCharacterRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetCharacterRequest) ProtoMessage() {}
-
-func (x *GetCharacterRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetCharacterRequest.ProtoReflect.Descriptor instead.
-func (*GetCharacterRequest) Descriptor() ([]byte, []int) {
-	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *GetCharacterRequest) GetUserId() uint64 {
-	if x != nil {
-		return x.UserId
-	}
-	return 0
-}
-
 type CharacterInfo struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Id             uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	UserId         uint64                 `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	CharacterName  string                 `protobuf:"bytes,3,opt,name=character_name,json=characterName,proto3" json:"character_name,omitempty"`
 	Level          int32                  `protobuf:"varint,4,opt,name=level,proto3" json:"level,omitempty"`
-	AttributesJson string                 `protobuf:"bytes,5,opt,name=attributes_json,json=attributesJson,proto3" json:"attributes_json,omitempty"`
+	Coins          int64                  `protobuf:"varint,5,opt,name=coins,proto3" json:"coins,omitempty"`
+	AttributesJson string                 `protobuf:"bytes,6,opt,name=attributes_json,json=attributesJson,proto3" json:"attributes_json,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CharacterInfo) Reset() {
 	*x = CharacterInfo{}
-	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[1]
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -91,7 +48,7 @@ func (x *CharacterInfo) String() string {
 func (*CharacterInfo) ProtoMessage() {}
 
 func (x *CharacterInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[1]
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -104,7 +61,7 @@ func (x *CharacterInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CharacterInfo.ProtoReflect.Descriptor instead.
 func (*CharacterInfo) Descriptor() ([]byte, []int) {
-	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{1}
+	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *CharacterInfo) GetId() uint64 {
@@ -135,11 +92,182 @@ func (x *CharacterInfo) GetLevel() int32 {
 	return 0
 }
 
+func (x *CharacterInfo) GetCoins() int64 {
+	if x != nil {
+		return x.Coins
+	}
+	return 0
+}
+
 func (x *CharacterInfo) GetAttributesJson() string {
 	if x != nil {
 		return x.AttributesJson
 	}
 	return ""
+}
+
+type CreateCharacterRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	CharacterName string                 `protobuf:"bytes,2,opt,name=character_name,json=characterName,proto3" json:"character_name,omitempty"`
+	InitialCoins  int64                  `protobuf:"varint,3,opt,name=initial_coins,json=initialCoins,proto3" json:"initial_coins,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateCharacterRequest) Reset() {
+	*x = CreateCharacterRequest{}
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateCharacterRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateCharacterRequest) ProtoMessage() {}
+
+func (x *CreateCharacterRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateCharacterRequest.ProtoReflect.Descriptor instead.
+func (*CreateCharacterRequest) Descriptor() ([]byte, []int) {
+	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CreateCharacterRequest) GetUserId() uint64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *CreateCharacterRequest) GetCharacterName() string {
+	if x != nil {
+		return x.CharacterName
+	}
+	return ""
+}
+
+func (x *CreateCharacterRequest) GetInitialCoins() int64 {
+	if x != nil {
+		return x.InitialCoins
+	}
+	return 0
+}
+
+type CreateCharacterResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int32                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Character     *CharacterInfo         `protobuf:"bytes,3,opt,name=character,proto3" json:"character,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateCharacterResponse) Reset() {
+	*x = CreateCharacterResponse{}
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateCharacterResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateCharacterResponse) ProtoMessage() {}
+
+func (x *CreateCharacterResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateCharacterResponse.ProtoReflect.Descriptor instead.
+func (*CreateCharacterResponse) Descriptor() ([]byte, []int) {
+	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CreateCharacterResponse) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *CreateCharacterResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *CreateCharacterResponse) GetCharacter() *CharacterInfo {
+	if x != nil {
+		return x.Character
+	}
+	return nil
+}
+
+type GetCharacterRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCharacterRequest) Reset() {
+	*x = GetCharacterRequest{}
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCharacterRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCharacterRequest) ProtoMessage() {}
+
+func (x *GetCharacterRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCharacterRequest.ProtoReflect.Descriptor instead.
+func (*GetCharacterRequest) Descriptor() ([]byte, []int) {
+	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetCharacterRequest) GetUserId() uint64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
 }
 
 type GetCharacterResponse struct {
@@ -153,7 +281,7 @@ type GetCharacterResponse struct {
 
 func (x *GetCharacterResponse) Reset() {
 	*x = GetCharacterResponse{}
-	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[2]
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -165,7 +293,7 @@ func (x *GetCharacterResponse) String() string {
 func (*GetCharacterResponse) ProtoMessage() {}
 
 func (x *GetCharacterResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[2]
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -178,7 +306,7 @@ func (x *GetCharacterResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCharacterResponse.ProtoReflect.Descriptor instead.
 func (*GetCharacterResponse) Descriptor() ([]byte, []int) {
-	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{2}
+	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetCharacterResponse) GetCode() int32 {
@@ -212,7 +340,7 @@ type UpdateCharacterLevelRequest struct {
 
 func (x *UpdateCharacterLevelRequest) Reset() {
 	*x = UpdateCharacterLevelRequest{}
-	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[3]
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -224,7 +352,7 @@ func (x *UpdateCharacterLevelRequest) String() string {
 func (*UpdateCharacterLevelRequest) ProtoMessage() {}
 
 func (x *UpdateCharacterLevelRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[3]
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -237,7 +365,7 @@ func (x *UpdateCharacterLevelRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateCharacterLevelRequest.ProtoReflect.Descriptor instead.
 func (*UpdateCharacterLevelRequest) Descriptor() ([]byte, []int) {
-	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{3}
+	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *UpdateCharacterLevelRequest) GetUserId() uint64 {
@@ -264,7 +392,7 @@ type UpdateCharacterLevelResponse struct {
 
 func (x *UpdateCharacterLevelResponse) Reset() {
 	*x = UpdateCharacterLevelResponse{}
-	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[4]
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -276,7 +404,7 @@ func (x *UpdateCharacterLevelResponse) String() string {
 func (*UpdateCharacterLevelResponse) ProtoMessage() {}
 
 func (x *UpdateCharacterLevelResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[4]
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -289,7 +417,7 @@ func (x *UpdateCharacterLevelResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateCharacterLevelResponse.ProtoReflect.Descriptor instead.
 func (*UpdateCharacterLevelResponse) Descriptor() ([]byte, []int) {
-	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{4}
+	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *UpdateCharacterLevelResponse) GetCode() int32 {
@@ -306,6 +434,262 @@ func (x *UpdateCharacterLevelResponse) GetMessage() string {
 	return ""
 }
 
+type CreateOrderRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	ItemName      string                 `protobuf:"bytes,2,opt,name=item_name,json=itemName,proto3" json:"item_name,omitempty"`
+	Amount        float64                `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	Channel       string                 `protobuf:"bytes,4,opt,name=channel,proto3" json:"channel,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateOrderRequest) Reset() {
+	*x = CreateOrderRequest{}
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateOrderRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateOrderRequest) ProtoMessage() {}
+
+func (x *CreateOrderRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateOrderRequest.ProtoReflect.Descriptor instead.
+func (*CreateOrderRequest) Descriptor() ([]byte, []int) {
+	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *CreateOrderRequest) GetUserId() uint64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *CreateOrderRequest) GetItemName() string {
+	if x != nil {
+		return x.ItemName
+	}
+	return ""
+}
+
+func (x *CreateOrderRequest) GetAmount() float64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *CreateOrderRequest) GetChannel() string {
+	if x != nil {
+		return x.Channel
+	}
+	return ""
+}
+
+type CreateOrderResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int32                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	OrderNo       string                 `protobuf:"bytes,3,opt,name=order_no,json=orderNo,proto3" json:"order_no,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateOrderResponse) Reset() {
+	*x = CreateOrderResponse{}
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateOrderResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateOrderResponse) ProtoMessage() {}
+
+func (x *CreateOrderResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateOrderResponse.ProtoReflect.Descriptor instead.
+func (*CreateOrderResponse) Descriptor() ([]byte, []int) {
+	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CreateOrderResponse) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *CreateOrderResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *CreateOrderResponse) GetOrderNo() string {
+	if x != nil {
+		return x.OrderNo
+	}
+	return ""
+}
+
+type ProcessPaymentRequest struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	OrderNo         string                 `protobuf:"bytes,1,opt,name=order_no,json=orderNo,proto3" json:"order_no,omitempty"`
+	UserId          uint64                 `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Amount          float64                `protobuf:"fixed64,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	SimulateFailure bool                   `protobuf:"varint,4,opt,name=simulate_failure,json=simulateFailure,proto3" json:"simulate_failure,omitempty"` // 用于演示 Saga 失败与补偿回滚
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *ProcessPaymentRequest) Reset() {
+	*x = ProcessPaymentRequest{}
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ProcessPaymentRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProcessPaymentRequest) ProtoMessage() {}
+
+func (x *ProcessPaymentRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProcessPaymentRequest.ProtoReflect.Descriptor instead.
+func (*ProcessPaymentRequest) Descriptor() ([]byte, []int) {
+	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ProcessPaymentRequest) GetOrderNo() string {
+	if x != nil {
+		return x.OrderNo
+	}
+	return ""
+}
+
+func (x *ProcessPaymentRequest) GetUserId() uint64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *ProcessPaymentRequest) GetAmount() float64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *ProcessPaymentRequest) GetSimulateFailure() bool {
+	if x != nil {
+		return x.SimulateFailure
+	}
+	return false
+}
+
+type ProcessPaymentResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int32                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Status        string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"` // "PAID", "FAILED", "COMPENSATED"
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ProcessPaymentResponse) Reset() {
+	*x = ProcessPaymentResponse{}
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ProcessPaymentResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProcessPaymentResponse) ProtoMessage() {}
+
+func (x *ProcessPaymentResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProcessPaymentResponse.ProtoReflect.Descriptor instead.
+func (*ProcessPaymentResponse) Descriptor() ([]byte, []int) {
+	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *ProcessPaymentResponse) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *ProcessPaymentResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *ProcessPaymentResponse) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
 type ReportGameEventRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        uint64                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
@@ -317,7 +701,7 @@ type ReportGameEventRequest struct {
 
 func (x *ReportGameEventRequest) Reset() {
 	*x = ReportGameEventRequest{}
-	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[5]
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -329,7 +713,7 @@ func (x *ReportGameEventRequest) String() string {
 func (*ReportGameEventRequest) ProtoMessage() {}
 
 func (x *ReportGameEventRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[5]
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -342,7 +726,7 @@ func (x *ReportGameEventRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReportGameEventRequest.ProtoReflect.Descriptor instead.
 func (*ReportGameEventRequest) Descriptor() ([]byte, []int) {
-	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{5}
+	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *ReportGameEventRequest) GetUserId() uint64 {
@@ -376,7 +760,7 @@ type ReportGameEventResponse struct {
 
 func (x *ReportGameEventResponse) Reset() {
 	*x = ReportGameEventResponse{}
-	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[6]
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -388,7 +772,7 @@ func (x *ReportGameEventResponse) String() string {
 func (*ReportGameEventResponse) ProtoMessage() {}
 
 func (x *ReportGameEventResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[6]
+	mi := &file_trpc_gametool_game_v1_game_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -401,7 +785,7 @@ func (x *ReportGameEventResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReportGameEventResponse.ProtoReflect.Descriptor instead.
 func (*ReportGameEventResponse) Descriptor() ([]byte, []int) {
-	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{6}
+	return file_trpc_gametool_game_v1_game_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *ReportGameEventResponse) GetCode() int32 {
@@ -422,15 +806,24 @@ var File_trpc_gametool_game_v1_game_proto protoreflect.FileDescriptor
 
 const file_trpc_gametool_game_v1_game_proto_rawDesc = "" +
 	"\n" +
-	" trpc/gametool/game/v1/game.proto\x12\x15trpc.gametool.game.v1\".\n" +
-	"\x13GetCharacterRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x04R\x06userId\"\x9e\x01\n" +
+	" trpc/gametool/game/v1/game.proto\x12\x15trpc.gametool.game.v1\"\xb4\x01\n" +
 	"\rCharacterInfo\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x04R\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x04R\x06userId\x12%\n" +
 	"\x0echaracter_name\x18\x03 \x01(\tR\rcharacterName\x12\x14\n" +
-	"\x05level\x18\x04 \x01(\x05R\x05level\x12'\n" +
-	"\x0fattributes_json\x18\x05 \x01(\tR\x0eattributesJson\"\x88\x01\n" +
+	"\x05level\x18\x04 \x01(\x05R\x05level\x12\x14\n" +
+	"\x05coins\x18\x05 \x01(\x03R\x05coins\x12'\n" +
+	"\x0fattributes_json\x18\x06 \x01(\tR\x0eattributesJson\"}\n" +
+	"\x16CreateCharacterRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12%\n" +
+	"\x0echaracter_name\x18\x02 \x01(\tR\rcharacterName\x12#\n" +
+	"\rinitial_coins\x18\x03 \x01(\x03R\finitialCoins\"\x8b\x01\n" +
+	"\x17CreateCharacterResponse\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12B\n" +
+	"\tcharacter\x18\x03 \x01(\v2$.trpc.gametool.game.v1.CharacterInfoR\tcharacter\".\n" +
+	"\x13GetCharacterRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x04R\x06userId\"\x88\x01\n" +
 	"\x14GetCharacterResponse\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12B\n" +
@@ -440,7 +833,25 @@ const file_trpc_gametool_game_v1_game_proto_rawDesc = "" +
 	"\tnew_level\x18\x02 \x01(\x05R\bnewLevel\"L\n" +
 	"\x1cUpdateCharacterLevelResponse\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"s\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"|\n" +
+	"\x12CreateOrderRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12\x1b\n" +
+	"\titem_name\x18\x02 \x01(\tR\bitemName\x12\x16\n" +
+	"\x06amount\x18\x03 \x01(\x01R\x06amount\x12\x18\n" +
+	"\achannel\x18\x04 \x01(\tR\achannel\"^\n" +
+	"\x13CreateOrderResponse\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x19\n" +
+	"\border_no\x18\x03 \x01(\tR\aorderNo\"\x8e\x01\n" +
+	"\x15ProcessPaymentRequest\x12\x19\n" +
+	"\border_no\x18\x01 \x01(\tR\aorderNo\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\x04R\x06userId\x12\x16\n" +
+	"\x06amount\x18\x03 \x01(\x01R\x06amount\x12)\n" +
+	"\x10simulate_failure\x18\x04 \x01(\bR\x0fsimulateFailure\"^\n" +
+	"\x16ProcessPaymentResponse\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x16\n" +
+	"\x06status\x18\x03 \x01(\tR\x06status\"s\n" +
 	"\x16ReportGameEventRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x04R\x06userId\x12\x1d\n" +
 	"\n" +
@@ -448,10 +859,13 @@ const file_trpc_gametool_game_v1_game_proto_rawDesc = "" +
 	"\fpayload_json\x18\x03 \x01(\tR\vpayloadJson\"G\n" +
 	"\x17ReportGameEventResponse\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage2\xe9\x02\n" +
-	"\vGameService\x12g\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage2\xb0\x05\n" +
+	"\vGameService\x12p\n" +
+	"\x0fCreateCharacter\x12-.trpc.gametool.game.v1.CreateCharacterRequest\x1a..trpc.gametool.game.v1.CreateCharacterResponse\x12g\n" +
 	"\fGetCharacter\x12*.trpc.gametool.game.v1.GetCharacterRequest\x1a+.trpc.gametool.game.v1.GetCharacterResponse\x12\x7f\n" +
-	"\x14UpdateCharacterLevel\x122.trpc.gametool.game.v1.UpdateCharacterLevelRequest\x1a3.trpc.gametool.game.v1.UpdateCharacterLevelResponse\x12p\n" +
+	"\x14UpdateCharacterLevel\x122.trpc.gametool.game.v1.UpdateCharacterLevelRequest\x1a3.trpc.gametool.game.v1.UpdateCharacterLevelResponse\x12d\n" +
+	"\vCreateOrder\x12).trpc.gametool.game.v1.CreateOrderRequest\x1a*.trpc.gametool.game.v1.CreateOrderResponse\x12m\n" +
+	"\x0eProcessPayment\x12,.trpc.gametool.game.v1.ProcessPaymentRequest\x1a-.trpc.gametool.game.v1.ProcessPaymentResponse\x12p\n" +
 	"\x0fReportGameEvent\x12-.trpc.gametool.game.v1.ReportGameEventRequest\x1a..trpc.gametool.game.v1.ReportGameEventResponseBTZRgithub.com/FrontTechLeo/trpc-deploy-experiment/gen/go/trpc/gametool/game/v1;gamev1b\x06proto3"
 
 var (
@@ -466,29 +880,42 @@ func file_trpc_gametool_game_v1_game_proto_rawDescGZIP() []byte {
 	return file_trpc_gametool_game_v1_game_proto_rawDescData
 }
 
-var file_trpc_gametool_game_v1_game_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_trpc_gametool_game_v1_game_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_trpc_gametool_game_v1_game_proto_goTypes = []any{
-	(*GetCharacterRequest)(nil),          // 0: trpc.gametool.game.v1.GetCharacterRequest
-	(*CharacterInfo)(nil),                // 1: trpc.gametool.game.v1.CharacterInfo
-	(*GetCharacterResponse)(nil),         // 2: trpc.gametool.game.v1.GetCharacterResponse
-	(*UpdateCharacterLevelRequest)(nil),  // 3: trpc.gametool.game.v1.UpdateCharacterLevelRequest
-	(*UpdateCharacterLevelResponse)(nil), // 4: trpc.gametool.game.v1.UpdateCharacterLevelResponse
-	(*ReportGameEventRequest)(nil),       // 5: trpc.gametool.game.v1.ReportGameEventRequest
-	(*ReportGameEventResponse)(nil),      // 6: trpc.gametool.game.v1.ReportGameEventResponse
+	(*CharacterInfo)(nil),                // 0: trpc.gametool.game.v1.CharacterInfo
+	(*CreateCharacterRequest)(nil),       // 1: trpc.gametool.game.v1.CreateCharacterRequest
+	(*CreateCharacterResponse)(nil),      // 2: trpc.gametool.game.v1.CreateCharacterResponse
+	(*GetCharacterRequest)(nil),          // 3: trpc.gametool.game.v1.GetCharacterRequest
+	(*GetCharacterResponse)(nil),         // 4: trpc.gametool.game.v1.GetCharacterResponse
+	(*UpdateCharacterLevelRequest)(nil),  // 5: trpc.gametool.game.v1.UpdateCharacterLevelRequest
+	(*UpdateCharacterLevelResponse)(nil), // 6: trpc.gametool.game.v1.UpdateCharacterLevelResponse
+	(*CreateOrderRequest)(nil),           // 7: trpc.gametool.game.v1.CreateOrderRequest
+	(*CreateOrderResponse)(nil),          // 8: trpc.gametool.game.v1.CreateOrderResponse
+	(*ProcessPaymentRequest)(nil),        // 9: trpc.gametool.game.v1.ProcessPaymentRequest
+	(*ProcessPaymentResponse)(nil),       // 10: trpc.gametool.game.v1.ProcessPaymentResponse
+	(*ReportGameEventRequest)(nil),       // 11: trpc.gametool.game.v1.ReportGameEventRequest
+	(*ReportGameEventResponse)(nil),      // 12: trpc.gametool.game.v1.ReportGameEventResponse
 }
 var file_trpc_gametool_game_v1_game_proto_depIdxs = []int32{
-	1, // 0: trpc.gametool.game.v1.GetCharacterResponse.character:type_name -> trpc.gametool.game.v1.CharacterInfo
-	0, // 1: trpc.gametool.game.v1.GameService.GetCharacter:input_type -> trpc.gametool.game.v1.GetCharacterRequest
-	3, // 2: trpc.gametool.game.v1.GameService.UpdateCharacterLevel:input_type -> trpc.gametool.game.v1.UpdateCharacterLevelRequest
-	5, // 3: trpc.gametool.game.v1.GameService.ReportGameEvent:input_type -> trpc.gametool.game.v1.ReportGameEventRequest
-	2, // 4: trpc.gametool.game.v1.GameService.GetCharacter:output_type -> trpc.gametool.game.v1.GetCharacterResponse
-	4, // 5: trpc.gametool.game.v1.GameService.UpdateCharacterLevel:output_type -> trpc.gametool.game.v1.UpdateCharacterLevelResponse
-	6, // 6: trpc.gametool.game.v1.GameService.ReportGameEvent:output_type -> trpc.gametool.game.v1.ReportGameEventResponse
-	4, // [4:7] is the sub-list for method output_type
-	1, // [1:4] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0,  // 0: trpc.gametool.game.v1.CreateCharacterResponse.character:type_name -> trpc.gametool.game.v1.CharacterInfo
+	0,  // 1: trpc.gametool.game.v1.GetCharacterResponse.character:type_name -> trpc.gametool.game.v1.CharacterInfo
+	1,  // 2: trpc.gametool.game.v1.GameService.CreateCharacter:input_type -> trpc.gametool.game.v1.CreateCharacterRequest
+	3,  // 3: trpc.gametool.game.v1.GameService.GetCharacter:input_type -> trpc.gametool.game.v1.GetCharacterRequest
+	5,  // 4: trpc.gametool.game.v1.GameService.UpdateCharacterLevel:input_type -> trpc.gametool.game.v1.UpdateCharacterLevelRequest
+	7,  // 5: trpc.gametool.game.v1.GameService.CreateOrder:input_type -> trpc.gametool.game.v1.CreateOrderRequest
+	9,  // 6: trpc.gametool.game.v1.GameService.ProcessPayment:input_type -> trpc.gametool.game.v1.ProcessPaymentRequest
+	11, // 7: trpc.gametool.game.v1.GameService.ReportGameEvent:input_type -> trpc.gametool.game.v1.ReportGameEventRequest
+	2,  // 8: trpc.gametool.game.v1.GameService.CreateCharacter:output_type -> trpc.gametool.game.v1.CreateCharacterResponse
+	4,  // 9: trpc.gametool.game.v1.GameService.GetCharacter:output_type -> trpc.gametool.game.v1.GetCharacterResponse
+	6,  // 10: trpc.gametool.game.v1.GameService.UpdateCharacterLevel:output_type -> trpc.gametool.game.v1.UpdateCharacterLevelResponse
+	8,  // 11: trpc.gametool.game.v1.GameService.CreateOrder:output_type -> trpc.gametool.game.v1.CreateOrderResponse
+	10, // 12: trpc.gametool.game.v1.GameService.ProcessPayment:output_type -> trpc.gametool.game.v1.ProcessPaymentResponse
+	12, // 13: trpc.gametool.game.v1.GameService.ReportGameEvent:output_type -> trpc.gametool.game.v1.ReportGameEventResponse
+	8,  // [8:14] is the sub-list for method output_type
+	2,  // [2:8] is the sub-list for method input_type
+	2,  // [2:2] is the sub-list for extension type_name
+	2,  // [2:2] is the sub-list for extension extendee
+	0,  // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_trpc_gametool_game_v1_game_proto_init() }
@@ -502,7 +929,7 @@ func file_trpc_gametool_game_v1_game_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_trpc_gametool_game_v1_game_proto_rawDesc), len(file_trpc_gametool_game_v1_game_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
