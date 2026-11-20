@@ -103,6 +103,8 @@
 1. [01. 本地环境准备与依赖安装避坑指南](docs/knowledge-base/01-environment-setup.md)
 2. [02. PolarisMesh 北极星单机版部署与 tRPC-Go 接入经验](docs/knowledge-base/02-polaris-standalone-setup.md)
 3. [03. 轻量化可观测性套件部署与资源控制经验](docs/knowledge-base/03-observability-quickstart.md)
+4. [04. 生产环境选型分析：K3s vs Docker Compose 深度对比](docs/knowledge-base/04-k3s-vs-docker-compose-production.md)
+5. [05. 湖仓一体分析、ClickHouse 实时数仓、TiDB 分布式数据库与 DuckDB 联邦查询实践](docs/knowledge-base/05-lakehouse-duckdb-clickhouse-tidb.md)
 
 ---
 
@@ -114,3 +116,9 @@
    - 容器底座：Docker & Docker Compose
 2. **查阅规划方案**：
    - 阅读 [本地部署全套微服务实施方案](docs/trpc_local_microservice_governance_plan.md) 了解整体架构与技术决策。
+3. **一键执行各阶段端到端测试**：
+   - `scripts/test-e2e.sh`: 基础架构、MySQL/Redis、Polaris 服务发现与 Auth/Gateway 联通测试
+   - `scripts/test-phase4.sh`: GameService 角色生命周期、等级跃迁、RabbitMQ Saga 最终一致性与补偿测试
+   - `scripts/report-clickhouse-telemetry.sh`: ClickHouse 实时事件埋点流水线上报与 OLAP 聚合分析
+   - `scripts/lakehouse-sync.sh`: ClickHouse -> MinIO S3 Parquet 列式湖仓归档与 DuckDB 跨源联邦分析
+   - `scripts/test-phase5.sh`: TiDB 分布式数据库、ClickHouse、DuckDB 湖仓与监控套件 (Prometheus/Jaeger/Loki/Grafana) 21 项全景巡检
