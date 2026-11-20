@@ -38,6 +38,8 @@ spec:
               value: "192.168.137.240:6379"
             - name: RABBITMQ_URL
               value: "amqp://guest:guest@192.168.137.240:5672/"
+            - name: CLICKHOUSE_URL
+              value: "http://192.168.137.240:8123"
           resources:
             requests:
               cpu: 50m

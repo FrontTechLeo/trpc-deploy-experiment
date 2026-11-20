@@ -6,7 +6,7 @@ services:
     restart: always
     ports:
       - "8123:8123" # HTTP API 接口与原生 Web 查询界面
-      - "9000:9000" # Native TCP 客户端连接端口
+      - "9009:9000" # Native TCP 客户端连接端口 (避开 MinIO 9000 端口冲突)
     environment:
       CLICKHOUSE_DB: analytics
       CLICKHOUSE_USER: default

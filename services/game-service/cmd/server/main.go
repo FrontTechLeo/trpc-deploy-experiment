@@ -4,6 +4,7 @@ import (
 	"os"
 
 	gamev1 "github.com/FrontTechLeo/trpc-deploy-experiment/gen/go/trpc/gametool/game/v1"
+	"github.com/FrontTechLeo/trpc-deploy-experiment/pkg/clickhouse"
 	"github.com/FrontTechLeo/trpc-deploy-experiment/pkg/database"
 	"github.com/FrontTechLeo/trpc-deploy-experiment/pkg/mq"
 	"github.com/FrontTechLeo/trpc-deploy-experiment/services/game-service/internal/service"
@@ -74,8 +75,18 @@ func main() {
 		log.Fatalf("init rabbitmq failed: %v", err)
 	}
 
+	// 初始化 ClickHouse 分析数仓客户端
+	chURL := os.Getenv("CLICKHOUSE_URL")
+	if chURL == "" {
+		chURL = "http://192.168.137.240:8123"
+	}
+	chClient, err := clickhouse.InitClickHouse(chURL)
+	if err != nil {
+		log.Warnf("connect clickhouse failed (will continue without OLAP writer): %v", err)
+	}
+
 	// 注册 GameService 业务实现
-	gameSvr := service.NewGameService(db, rdb, mqClient)
+	gameSvr := service.NewGameService(db, rdb, mqClient, chClient)
 	gamev1.RegisterGameServiceService(s.Service("trpc.gametool.game.v1.GameService"), gameSvr)
 
 	log.Info("GameService starting, ready to serve and register with PolarisMesh...")

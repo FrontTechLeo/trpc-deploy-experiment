@@ -7,6 +7,7 @@ import (
 	"time"
 
 	gamev1 "github.com/FrontTechLeo/trpc-deploy-experiment/gen/go/trpc/gametool/game/v1"
+	"github.com/FrontTechLeo/trpc-deploy-experiment/pkg/clickhouse"
 	"github.com/FrontTechLeo/trpc-deploy-experiment/pkg/database"
 	"github.com/FrontTechLeo/trpc-deploy-experiment/pkg/mq"
 )
@@ -30,7 +31,9 @@ func TestGameService_LifecycleAndSaga(t *testing.T) {
 	}
 	defer mqClient.Close()
 
-	gameSvr := NewGameService(db, rdb, mqClient)
+	chClient, _ := clickhouse.InitClickHouse("http://127.0.0.1:8123")
+
+	gameSvr := NewGameService(db, rdb, mqClient, chClient)
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 

@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -13,6 +14,7 @@ import (
 	"trpc.group/trpc-go/trpc-go/log"
 
 	gamev1 "github.com/FrontTechLeo/trpc-deploy-experiment/gen/go/trpc/gametool/game/v1"
+	"github.com/FrontTechLeo/trpc-deploy-experiment/pkg/clickhouse"
 	"github.com/FrontTechLeo/trpc-deploy-experiment/pkg/mq"
 )
 
@@ -21,6 +23,7 @@ type GameService struct {
 	db  *sql.DB
 	rdb *redis.Client
 	mq  *mq.RabbitMQ
+	ch  *clickhouse.Client
 }
 
 type CharacterAttributes struct {
@@ -29,11 +32,12 @@ type CharacterAttributes struct {
 	MP    int32 `json:"mp"`
 }
 
-func NewGameService(db *sql.DB, rdb *redis.Client, mqClient *mq.RabbitMQ) *GameService {
+func NewGameService(db *sql.DB, rdb *redis.Client, mqClient *mq.RabbitMQ, chClient *clickhouse.Client) *GameService {
 	svc := &GameService{
 		db:  db,
 		rdb: rdb,
 		mq:  mqClient,
+		ch:  chClient,
 	}
 	if mqClient != nil {
 		svc.startConsumers()
@@ -54,6 +58,15 @@ func (s *GameService) startConsumers() {
 			}
 			log.Infof("[Saga Consumer] 收到订单流转事件: OrderNo=%s, UserID=%d, Status=%s, Amount=%.2f, Reason=%s",
 				evt.OrderNo, evt.UserID, evt.Status, evt.Amount, evt.Reason)
+			if s.ch != nil && (evt.Status == "PAID" || evt.Status == "COMPENSATED") {
+				_ = s.ch.InsertEvent(context.Background(), clickhouse.GameEventRecord{
+					UserID:     evt.UserID,
+					EventType:  "order_" + strings.ToLower(evt.Status),
+					Amount:     evt.Amount,
+					CoinsDelta: int64(evt.Amount * 10),
+					Payload:    fmt.Sprintf(`{"order_no":"%s","reason":"%s"}`, evt.OrderNo, evt.Reason),
+				})
+			}
 			return nil
 		},
 	)
@@ -73,6 +86,13 @@ func (s *GameService) startConsumers() {
 			}
 			log.Infof("[Telemetry Consumer] 收到业务遥测埋点: UserID=%d, EventType=%s, Payload=%s",
 				evt.UserID, evt.EventType, evt.Payload)
+			if s.ch != nil {
+				_ = s.ch.InsertEvent(context.Background(), clickhouse.GameEventRecord{
+					UserID:    evt.UserID,
+					EventType: evt.EventType,
+					Payload:   evt.Payload,
+				})
+			}
 			return nil
 		},
 	)
@@ -438,6 +458,15 @@ func (s *GameService) ReportGameEvent(ctx context.Context, req *gamev1.ReportGam
 			EventType: req.EventType,
 			Payload:   payload,
 			Timestamp: time.Now().Unix(),
+		})
+	}
+
+	// 3. 同步写入 ClickHouse 分析型数仓
+	if s.ch != nil {
+		_ = s.ch.InsertEvent(ctx, clickhouse.GameEventRecord{
+			UserID:    req.UserId,
+			EventType: req.EventType,
+			Payload:   payload,
 		})
 	}
 
