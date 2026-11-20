@@ -7,8 +7,8 @@ services:
       - USER_UID=1000
       - USER_GID=1000
       - GITEA__security__INSTALL_LOCK=true
-      - GITEA__server__ROOT_URL=http://localhost:3000/
-      - GITEA__server__DOMAIN=localhost
+      - GITEA__server__ROOT_URL=http://192.168.137.240:3000/
+      - GITEA__server__DOMAIN=192.168.137.240
       - GITEA__server__HTTP_PORT=3000
     ports:
       - "3000:3000"
@@ -23,13 +23,13 @@ services:
     ports:
       - "8000:80"
     environment:
-      - DRONE_SERVER_HOST=localhost:8000
+      - DRONE_SERVER_HOST=192.168.137.240:8000
       - DRONE_SERVER_PROTO=http
       - DRONE_RPC_SECRET=gametool_secret_drone_rpc_2026
-      - DRONE_GITEA_SERVER=http://local-gitea:3000
-      - DRONE_GITEA_CLIENT_ID=gametool_drone_client_id
-      - DRONE_GITEA_CLIENT_SECRET=gametool_drone_client_secret
-      - DRONE_USER_CREATE=username:admin,admin:true
+      - DRONE_GITEA_SERVER=http://192.168.137.240:3000
+      - DRONE_GITEA_CLIENT_ID=4d25d21a-e9f6-4b29-b3de-72ae6fbffeb5
+      - DRONE_GITEA_CLIENT_SECRET=gto_2chevjsucaf55b5kjh46wa4vplb3ygan53y5r5x23tgvxmt4fxzq
+      - DRONE_USER_CREATE=username:gitea_admin,admin:true
       - DRONE_OPEN=true
       - DRONE_DATABASE_DRIVER=sqlite3
       - DRONE_DATABASE_DATASOURCE=/data/drone.sqlite
