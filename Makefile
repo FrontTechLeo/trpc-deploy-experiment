@@ -1,4 +1,4 @@
-.PHONY: help infra-up infra-down monitor-up monitor-down analytics-up analytics-down all-up all-down proto-lint proto-gen migrate-up migrate-down duckdb-test clean
+.PHONY: help infra-up infra-down monitor-up monitor-down analytics-up analytics-down all-up all-down proto-lint proto-gen migrate-up migrate-down duckdb-test build test test-e2e clean
 
 export PATH := $(PATH):$(HOME)/Softwares/gopath/bin
 
@@ -17,6 +17,9 @@ help:
 	@echo "  make migrate-up    - 执行数据库版本迁移 (goose up)"
 	@echo "  make migrate-down  - 回滚上一个数据库版本迁移 (goose down)"
 	@echo "  make duckdb-test   - 测试本地 DuckDB 分析引擎"
+	@echo "  make build         - 编译 auth-service 与 tRPC-Gateway 二进制"
+	@echo "  make test          - 运行微服务单元测试"
+	@echo "  make test-e2e      - 执行阶段二全链路集成测试 (HTTP -> Gateway -> tRPC -> DB/Redis)"
 
 infra-up:
 	docker compose -f deploy/docker-compose.infra.yml up -d
@@ -46,7 +49,10 @@ proto-lint:
 	cd proto && buf lint
 
 proto-gen:
+	mkdir -p gen/go/trpc/gametool/auth/v1 gen/go/trpc/gametool/game/v1
 	cd proto && buf generate
+	trpc create --protofile=proto/trpc/gametool/auth/v1/auth.proto --rpconly --nogomod --mock=false --multi-version -o gen/go/trpc/gametool/auth/v1 -d proto
+	trpc create --protofile=proto/trpc/gametool/game/v1/game.proto --rpconly --nogomod --mock=false --multi-version -o gen/go/trpc/gametool/game/v1 -d proto
 
 migrate-up:
 	goose -dir deploy/migrations mysql "root:root@tcp(127.0.0.1:3306)/gametool?parseTime=true" up
@@ -56,3 +62,14 @@ migrate-down:
 
 duckdb-test:
 	duckdb -c "SELECT 'DuckDB Local Engine' as engine, 'Ready for MinIO Parquet queries' as status;"
+
+build:
+	mkdir -p bin
+	go build -o bin/auth-service ./services/auth-service/cmd/server
+	go build -o bin/gateway ./services/gateway/cmd/server
+
+test:
+	go test -v ./services/...
+
+test-e2e:
+	./scripts/test-e2e.sh

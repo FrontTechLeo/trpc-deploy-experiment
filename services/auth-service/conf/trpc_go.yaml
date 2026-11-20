@@ -1,0 +1,34 @@
+global:
+  namespace: Development
+  env_name: test
+
+server:
+  app: gametool
+  server: auth
+  bin_path: ./
+  conf_path: ./conf/
+  data_path: ./data/
+  service:
+    - name: trpc.gametool.auth.v1.AuthService
+      ip: 0.0.0.0
+      port: 10001
+      network: tcp
+      protocol: trpc
+      timeout: 3000
+
+plugins:
+  log:
+    default:
+      - writer: console
+        level: debug
+  registry:
+    polarismesh:
+      register_self: true
+      heartbeat_interval: 3000
+      protocol: grpc
+      address_list: "127.0.0.1:8091"
+      service:
+        - name: trpc.gametool.auth.v1.AuthService
+          namespace: Development
+          token: "polaris_token"
+          weight: 100

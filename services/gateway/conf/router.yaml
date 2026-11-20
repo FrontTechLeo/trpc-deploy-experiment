@@ -1,0 +1,24 @@
+router:
+  - method: /api/v1/auth/register
+    id: /api/v1/auth/register
+    target_service:
+      - service: trpc.gametool.auth.v1.AuthService
+        rewrite: /trpc.gametool.auth.v1.AuthService/Register
+  - method: /api/v1/auth/login
+    id: /api/v1/auth/login
+    target_service:
+      - service: trpc.gametool.auth.v1.AuthService
+        rewrite: /trpc.gametool.auth.v1.AuthService/Login
+  - method: /api/v1/auth/validate
+    id: /api/v1/auth/validate
+    target_service:
+      - service: trpc.gametool.auth.v1.AuthService
+        rewrite: /trpc.gametool.auth.v1.AuthService/ValidateToken
+
+client:
+  - name: trpc.gametool.auth.v1.AuthService
+    namespace: Development
+    target: polarismesh://trpc.gametool.auth.v1.AuthService
+    protocol: trpc
+    network: tcp
+    timeout: 3000

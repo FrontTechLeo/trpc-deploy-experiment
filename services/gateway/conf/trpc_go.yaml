@@ -1,0 +1,39 @@
+global:
+  namespace: Development
+  env_name: test
+  conf_provider: file
+
+server:
+  app: gametool
+  server: gateway
+  bin_path: ./
+  conf_path: ./conf/
+  data_path: ./data/
+  service:
+    - name: trpc.gametool.gateway.HTTP
+      ip: 0.0.0.0
+      port: 8080
+      network: tcp
+      protocol: fasthttp
+      timeout: 5000
+
+client:
+  timeout: 3000
+  namespace: Development
+  service:
+    - name: trpc.gametool.auth.v1.AuthService
+      namespace: Development
+      network: tcp
+      protocol: trpc
+      target: polarismesh://trpc.gametool.auth.v1.AuthService
+      timeout: 3000
+
+plugins:
+  log:
+    default:
+      - writer: console
+        level: debug
+  selector:
+    polarismesh:
+      protocol: grpc
+      address_list: "127.0.0.1:8091"

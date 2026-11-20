@@ -7,11 +7,12 @@
 package authv1
 
 import (
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
+
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -395,7 +396,7 @@ const file_trpc_gametool_auth_v1_auth_proto_rawDesc = "" +
 	"\vAuthService\x12R\n" +
 	"\x05Login\x12#.trpc.gametool.auth.v1.LoginRequest\x1a$.trpc.gametool.auth.v1.LoginResponse\x12[\n" +
 	"\bRegister\x12&.trpc.gametool.auth.v1.RegisterRequest\x1a'.trpc.gametool.auth.v1.RegisterResponse\x12j\n" +
-	"\rValidateToken\x12+.trpc.gametool.auth.v1.ValidateTokenRequest\x1a,.trpc.gametool.auth.v1.ValidateTokenResponseB\x1eZ\x1ctrpc.gametool.auth.v1;authv1b\x06proto3"
+	"\rValidateToken\x12+.trpc.gametool.auth.v1.ValidateTokenRequest\x1a,.trpc.gametool.auth.v1.ValidateTokenResponseBTZRgithub.com/FrontTechLeo/trpc-deploy-experiment/gen/go/trpc/gametool/auth/v1;authv1b\x06proto3"
 
 var (
 	file_trpc_gametool_auth_v1_auth_proto_rawDescOnce sync.Once

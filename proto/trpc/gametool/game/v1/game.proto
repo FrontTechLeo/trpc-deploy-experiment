@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package trpc.gametool.game.v1;
 
-option go_package = "trpc.gametool.game.v1;gamev1";
+option go_package = "github.com/FrontTechLeo/trpc-deploy-experiment/gen/go/trpc/gametool/game/v1;gamev1";
 
 // GameService 游戏核心业务与事件上报契约
 service GameService {

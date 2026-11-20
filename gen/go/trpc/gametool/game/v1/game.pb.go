@@ -7,11 +7,12 @@
 package gamev1
 
 import (
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
+
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -451,7 +452,7 @@ const file_trpc_gametool_game_v1_game_proto_rawDesc = "" +
 	"\vGameService\x12g\n" +
 	"\fGetCharacter\x12*.trpc.gametool.game.v1.GetCharacterRequest\x1a+.trpc.gametool.game.v1.GetCharacterResponse\x12\x7f\n" +
 	"\x14UpdateCharacterLevel\x122.trpc.gametool.game.v1.UpdateCharacterLevelRequest\x1a3.trpc.gametool.game.v1.UpdateCharacterLevelResponse\x12p\n" +
-	"\x0fReportGameEvent\x12-.trpc.gametool.game.v1.ReportGameEventRequest\x1a..trpc.gametool.game.v1.ReportGameEventResponseB\x1eZ\x1ctrpc.gametool.game.v1;gamev1b\x06proto3"
+	"\x0fReportGameEvent\x12-.trpc.gametool.game.v1.ReportGameEventRequest\x1a..trpc.gametool.game.v1.ReportGameEventResponseBTZRgithub.com/FrontTechLeo/trpc-deploy-experiment/gen/go/trpc/gametool/game/v1;gamev1b\x06proto3"
 
 var (
 	file_trpc_gametool_game_v1_game_proto_rawDescOnce sync.Once
