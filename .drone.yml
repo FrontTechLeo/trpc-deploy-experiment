@@ -1,0 +1,37 @@
+kind: pipeline
+type: docker
+name: gametool-ci-cd
+
+steps:
+  - name: proto-lint
+    image: bufbuild/buf:latest
+    commands:
+      - cd proto && buf lint
+
+  - name: unit-test
+    image: golang:1.24-alpine
+    commands:
+      - go test -v ./services/...
+
+  - name: build-auth-service
+    image: plugins/docker
+    settings:
+      registry: localhost:5000
+      repo: localhost:5000/gametool/auth-service
+      dockerfile: services/auth-service/Dockerfile
+      auto_tag: true
+      insecure: true
+
+  - name: build-gateway
+    image: plugins/docker
+    settings:
+      registry: localhost:5000
+      repo: localhost:5000/gametool/gateway
+      dockerfile: services/gateway/Dockerfile
+      auto_tag: true
+      insecure: true
+
+  - name: gitops-trigger
+    image: alpine/k8s:1.30.0
+    commands:
+      - echo "Triggering GitOps progressive canary release via Argo Rollouts..."

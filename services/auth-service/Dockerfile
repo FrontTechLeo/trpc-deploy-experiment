@@ -18,6 +18,7 @@ WORKDIR /app
 
 COPY --from=builder /app/auth-service /app/auth-service
 COPY services/auth-service/conf/ /app/conf/
+COPY services/auth-service/conf/polaris.yaml /app/polaris.yaml
 
 EXPOSE 10001 10002
 

@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: auth-service-rollout
+  namespace: gametool
+  labels:
+    app: auth-service
+spec:
+  replicas: 4
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+        - name: auth-service
+          image: localhost:5000/gametool/auth-service:v1.0.0
+          imagePullPolicy: Always
+          ports:
+            - name: trpc
+              containerPort: 10001
+            - name: admin
+              containerPort: 10002
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: POLARIS_ADDR
+              value: "192.168.137.240:8091"
+            - name: MYSQL_DSN
+              value: "root:root@tcp(192.168.137.240:3306)/gametool?parseTime=true&charset=utf8mb4"
+            - name: REDIS_ADDR
+              value: "192.168.137.240:6379"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+  strategy:
+    canary:
+      canaryService: auth-service-canary
+      stableService: auth-service-stable
+      steps:
+        - setWeight: 25
+        - pause: { duration: 10s }
+        - setWeight: 50
+        - pause: { duration: 10s }
+        - setWeight: 100

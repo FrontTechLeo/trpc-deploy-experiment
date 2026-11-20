@@ -10,7 +10,7 @@ server:
   data_path: ./data/
   service:
     - name: trpc.gametool.auth.v1.AuthService
-      ip: 0.0.0.0
+      ip: "${POD_IP}"
       port: 10001
       network: tcp
       protocol: trpc
@@ -26,7 +26,7 @@ plugins:
       register_self: true
       heartbeat_interval: 3000
       protocol: grpc
-      address_list: "127.0.0.1:8091"
+      address_list: "${POLARIS_ADDR}"
       service:
         - name: trpc.gametool.auth.v1.AuthService
           namespace: Development

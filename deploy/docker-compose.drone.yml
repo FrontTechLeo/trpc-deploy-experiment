@@ -1,0 +1,60 @@
+services:
+  gitea:
+    image: gitea/gitea:1.22
+    container_name: local-gitea
+    restart: always
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__security__INSTALL_LOCK=true
+      - GITEA__server__ROOT_URL=http://localhost:3000/
+      - GITEA__server__DOMAIN=localhost
+      - GITEA__server__HTTP_PORT=3000
+    ports:
+      - "3000:3000"
+      - "2222:22"
+    volumes:
+      - gitea_data:/data
+
+  drone-server:
+    image: drone/drone:2
+    container_name: local-drone-server
+    restart: always
+    ports:
+      - "8000:80"
+    environment:
+      - DRONE_SERVER_HOST=localhost:8000
+      - DRONE_SERVER_PROTO=http
+      - DRONE_RPC_SECRET=gametool_secret_drone_rpc_2026
+      - DRONE_GITEA_SERVER=http://local-gitea:3000
+      - DRONE_GITEA_CLIENT_ID=gametool_drone_client_id
+      - DRONE_GITEA_CLIENT_SECRET=gametool_drone_client_secret
+      - DRONE_USER_CREATE=username:admin,admin:true
+      - DRONE_OPEN=true
+      - DRONE_DATABASE_DRIVER=sqlite3
+      - DRONE_DATABASE_DATASOURCE=/data/drone.sqlite
+    volumes:
+      - drone_data:/data
+    depends_on:
+      - gitea
+
+  drone-runner:
+    image: drone/drone-runner-docker:1
+    container_name: local-drone-runner
+    restart: always
+    ports:
+      - "3001:3000"
+    environment:
+      - DRONE_RPC_PROTO=http
+      - DRONE_RPC_HOST=local-drone-server
+      - DRONE_RPC_SECRET=gametool_secret_drone_rpc_2026
+      - DRONE_RUNNER_CAPACITY=2
+      - DRONE_RUNNER_NAME=yang-ubuntu-runner
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - drone-server
+
+volumes:
+  gitea_data:
+  drone_data:

@@ -36,4 +36,4 @@ plugins:
   selector:
     polarismesh:
       protocol: grpc
-      address_list: "127.0.0.1:8091"
+      address_list: "${POLARIS_ADDR}"

@@ -18,6 +18,7 @@ WORKDIR /app
 
 COPY --from=builder /app/gateway /app/gateway
 COPY services/gateway/conf/ /app/conf/
+COPY services/gateway/conf/polaris.yaml /app/polaris.yaml
 
 EXPOSE 8080
 
