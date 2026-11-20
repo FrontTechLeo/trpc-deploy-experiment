@@ -105,6 +105,7 @@
 3. [03. 轻量化可观测性套件部署与资源控制经验](docs/knowledge-base/03-observability-quickstart.md)
 4. [04. 生产环境选型分析：K3s vs Docker Compose 深度对比](docs/knowledge-base/04-k3s-vs-docker-compose-production.md)
 5. [05. 湖仓一体分析、ClickHouse 实时数仓、TiDB 分布式数据库与 DuckDB 联邦查询实践](docs/knowledge-base/05-lakehouse-duckdb-clickhouse-tidb.md)
+6. [06. Gitea + Drone CI 部署、OAuth 2.0 联动避坑与生产主机通用落地指南](docs/knowledge-base/06-gitea-drone-oauth-production-guide.md)
 
 ---
 

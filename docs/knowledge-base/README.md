@@ -31,3 +31,4 @@
 | 03 | [轻量化可观测体系搭建经验](03-observability-quickstart.md) | Loki + Vector + Prometheus + Jaeger 资源控制与 Trace-to-Log 联动 | 已完成 |
 | 04 | [生产环境选型分析：K3s vs Docker Compose 深度对比](04-k3s-vs-docker-compose-production.md) | 深入剖析生产环境下 K3s 相比 Docker Compose 的高可用、平滑升级、弹性伸缩优势与双模演进路线 | 已完成 |
 | 05 | [湖仓一体分析、ClickHouse 实时数仓、TiDB 分布式数据库与 DuckDB 联邦查询实践](05-lakehouse-duckdb-clickhouse-tidb.md) | ClickHouse 实时 OLAP、MinIO S3 Parquet 列式存储、DuckDB Serverless 离线报表与 TiDB 跨源联邦查询实战 | 已完成 |
+| 06 | [Gitea + Drone CI 部署、OAuth 2.0 联动避坑与生产主机通用落地指南](06-gitea-drone-oauth-production-guide.md) | 深度解析容器域名泄漏 (NXDOMAIN)、PKCE 强制校验拦截 (invalid_request)、宿主机回环防火墙以及生产通用部署模板 | 已完成 |
