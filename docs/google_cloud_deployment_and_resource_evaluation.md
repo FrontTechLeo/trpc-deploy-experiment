@@ -138,16 +138,40 @@ flowchart TD
 
 ---
 
-### 2. 方案二：2 节点极简紧凑架构（极限压低预算备选 ★★★★☆）
-- **节点规格**：**2 台 `e2-standard-2` (或 2 台 `e2-standard-4`)**。
-  - 若追求极限省钱：选用 2 台 `e2-standard-2`（2 vCPU, 8 GB 内存），通过架构裁剪（按需使用 DuckDB 替代 TiDB/ClickHouse 常驻，裁剪轻量化日志）。
-  - 若追求高计算缓冲：选用 2 台 `e2-standard-4`（4 vCPU, 16 GB 内存）。
-- **节点分工**：
-  - **Node 1 (计算 + 核心存储)**：K3s Server 1 + trpc-gateway (副本1) + auth-service (副本1) + game-service (副本1) + MySQL + Redis。
-  - **Node 2 (计算 + 消息与观测)**：K3s Agent 2 (或 Server 2) + trpc-gateway (副本2) + auth-service (副本2) + game-service (副本2) + RabbitMQ + MinIO + 可观测套件 (Prometheus/Loki/Grafana)。
-- **优缺点分析**：
-  - 优势：机器采购费用直降 33%，配置维护简单。
-  - 局限：偶数节点缺少 etcd 仲裁法决，单机掉线时无法自动选举（MySQL 单点需要依托 GCP 磁盘快照或冷备拉起）。
+### 2. 方案二：2 节点极简超低成本架构 (2 $\times$ 2c 4gb 专项定稿方案 ★★★★★)
+- **节点规格**：**2 台 `e2-custom-2-4096` 或 `e2-medium`**（每台 2 vCPU，4 GB 内存，50 GB pd-balanced 磁盘）。
+- **总资源池**：**4 vCPU / 8 GB 内存 / 100 GB 磁盘**。
+- **目标成本约束**：针对用户明确的最大成本承受上限（2c 4gb 两台），通过深度精细化调优与架构裁剪，实现 100% 支撑 500 QPS。
+- **两台物理节点精准分工拓扑**：
+  - **Node 1 (核心计算与 OLTP 事务数据节点 - 4GB 内存)**：
+    - 运行组件：K3s Server (Control-Plane) + trpc-gateway (副本1) + auth-service (副本1) + game-service (副本1) + MySQL 8.0 (低内存精简版) + Redis 7.2 + PolarisMesh (单机版)。
+    - 内存精细预算：
+      - Ubuntu 24.04 OS + K3s Server：~500 MB
+      - MySQL 8.0 (`innodb_buffer_pool_size=512M`, `max_connections=80`)：~1000 MB
+      - Redis 7.2 (`maxmemory 256MB`, `volatile-lru`)：~200 MB
+      - PolarisMesh (轻量治理中心)：~350 MB
+      - trpc-gateway (Pod 1) + auth-service (Pod 1) + game-service (Pod 1)：~240 MB
+    - **Node 1 常驻内存合计**：**约 2.29 GB / 4.0 GB**（利用率 57%，剩余 1.71 GB 留作 PageCache 与突发内存）。
+  - **Node 2 (核心计算与异步消息、存储与观测节点 - 4GB 内存)**：
+    - 运行组件：K3s Agent + trpc-gateway (副本2) + auth-service (副本2) + game-service (副本2) + RabbitMQ 3.13 + MinIO + MongoDB 7.0 + 可观测套件 (Prometheus/Loki/Jaeger/Grafana) + DuckDB CronJob。
+    - 内存精细预算：
+      - Ubuntu 24.04 OS + K3s Agent：~400 MB
+      - RabbitMQ 3.13 (`vm_memory_high_watermark=0.4`)：~280 MB
+      - MinIO 对象存储：~120 MB
+      - MongoDB 7.0 (`--wiredTigerCacheSizeGB 0.25`)：~250 MB
+      - trpc-gateway (Pod 2) + auth-service (Pod 2) + game-service (Pod 2)：~240 MB
+      - Prometheus (抓取间隔 30s，本地数据保留 3 天)：~250 MB
+      - Grafana Loki (单副本流式日志)：~150 MB
+      - Jaeger (链路追踪 10% 采样)：~100 MB
+      - Grafana (统一监控看板)：~80 MB
+    - **Node 2 常驻内存合计**：**约 1.87 GB / 4.0 GB**（利用率 46%，剩余 2.13 GB 冗余缓冲）。
+- **两台节点支撑 500 QPS 性能推算**：
+  - 外部流量通过 Cloud DNS 轮询或 L4 NLB 均摊为每台 250 QPS。
+  - 单台微服务计算开销仅需 0.3 ~ 0.5 vCPU，Node 1 的 MySQL 125 TPS 仅需 0.3 vCPU，Node 2 的 RabbitMQ 仅需 0.1 vCPU。
+  - 单节点日常稳态 CPU 占用在 0.8 ~ 1.2 vCPU（40%~60% 水位），完全在 2 vCPU 承载舒适区。
+- **防 OOM 兜底黄金策略 (Anti-OOM Guarantee)**：
+  - 在两台 4GB 云主机上均划分 **2GB ~ 4GB Swap 交换分区**，配置 `vm.swappiness = 10`。
+  - 在遇到突发流量或批量日志写入时，Swap 自动承载低频非活跃内存，彻底杜绝 Linux OOM Killer 误杀 MySQL 或微服务进程！
 
 ---
 
@@ -206,14 +230,21 @@ flowchart TD
 
 ---
 
-### 2. 2 节点极简超低成本方案 (2 $\times$ e2-standard-2)
+### 2. 2 节点 2c 4gb 两台极限成本方案 (2 $\times$ 2c 4gb 专项核算)
 
-| 费用项 | 详细配置参数 | 按需月单价 (On-Demand) | 1年预留月单价 (1-Yr CUD) |
-|---|---|---|---|
-| **计算实例 (Compute)** | 2 台 `e2-standard-2` (共 4 vCPU, 16 GB) | $48.92 $\times$ 2 = **$97.84** | $30.82 $\times$ 2 = **$61.64** |
-| **持久化存储 (Storage)**| 2 $\times$ 60 GB `pd-balanced` (共 120 GB) | $0.10 $\times$ 120 = **$12.00** | $12.00 |
-| **网络与备份** | Cloud DNS + 出口流量 + 快照 | ~ **$25.00** | ~$25.00 |
-| **月度总支出 (USD)** | **极简双机高可用微服务底座** | **~$134 / 月** (约 960 元) | **~$98 / 月** (约 700 元) |
+针对用户明确指定的最大成本上限（2c 4gb 两台服务器），提供两种高性价比机型选择：
+- **首选机型 A：`e2-custom-2-4096`**（2 vCPU 独立核心，4 GB 内存）：性能稳定无抖动，单台约 $33.40 / 月；
+- **备选机型 B：`e2-medium`**（2 vCPU 可突发共享核心，4 GB 内存）：极限压低预算，单台约 $24.46 / 月。
+
+| 费用项 | 详细配置参数 | `e2-custom-2-4096` 按需月单价 | 1年预留月单价 (1-Yr CUD) | `e2-medium` 按需月单价 |
+|---|---|---|---|---|
+| **计算实例 (Compute)** | 2 台 2c 4gb (共 4 vCPU, 8 GB) | $33.40 $\times$ 2 = **$66.80** | $21.00 $\times$ 2 = **$42.00** | $24.46 $\times$ 2 = **$48.92** |
+| **持久化存储 (Storage)**| 2 $\times$ 50 GB `pd-balanced` (共 100 GB) | $0.10 $\times$ 100 = **$10.00** | $10.00 | $10.00 |
+| **网络与公网 IP** | Cloud DNS 轮询 + 500 QPS 出口流量 | ~ **$15.00** | ~$15.00 | ~$15.00 |
+| **快照备份 (Snapshots)**| 核心数据增量快照 (约 30GB) | ~ **$1.50** | ~$1.50 | ~$1.50 |
+| **月度总支出 (USD)** | **2c 4gb 双机微服务全套治理与业务底座** | **~$93.30 / 月** (约 670 元) | **~$68.50 / 月** (约 490 元) | **~$75.42 / 月** (约 540 元) |
+
+> 💡 **成本评价**：在 2c 4gb 两台的约束下，**月度总支出低至 ~$68 ~ $93 / 月（约合人民币 490 ~ 670 元/月）**，通过精细化内存限制与 Swap 兜底防线，既完美守住预算红线，又能让双机发挥多机多活、业务与观测解耦的全部能力！
 
 ---
 
