@@ -1,0 +1,28 @@
+kind: pipeline
+type: docker
+name: nav-dashboard-ci-cd
+
+steps:
+  - name: lint-and-validate
+    image: alpine:latest
+    commands:
+      - grep -q "基础服务导航控制台" index.html
+      - grep -q "listen 80" nginx.conf
+      - grep -q "healthz" nginx.conf
+      - echo "Static files and Nginx config validation passed successfully."
+
+  - name: build-and-publish-image
+    image: plugins/docker
+    settings:
+      registry: 192.168.137.240:5000
+      repo: 192.168.137.240:5000/gametool/nav-dashboard
+      dockerfile: Dockerfile
+      tags:
+        - latest
+      insecure: true
+
+  - name: deploy-notify
+    image: alpine:latest
+    commands:
+      - echo "Nav Dashboard CI/CD finished successfully!"
+      - echo "Image 192.168.137.240:5000/gametool/nav-dashboard:latest published to local registry."
