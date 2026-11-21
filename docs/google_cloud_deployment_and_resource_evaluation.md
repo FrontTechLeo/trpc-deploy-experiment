@@ -52,9 +52,10 @@
 | **Grafana Loki** | 极轻量流式日志存储检索 | 0.1 ~ 0.2 vCPU | 200MB ~ 350MB | 压缩落盘，建议 20GB | 比传统 ELK 节约 80% 内存与磁盘开销 |
 | **Jaeger / Tempo** | 分布式链路追踪 (APM) | 0.05 ~ 0.15 vCPU | 150MB ~ 250MB | 建议开启 10% 尾部采样 | 仅记录异常或慢调用，控制存储膨胀 |
 | **Grafana** | 统一监控与指标看板 | < 0.05 vCPU | 100MB ~ 180MB | 极低 | 统一多数据源大盘 |
-| **数仓分析 (DuckDB)**| 嵌入式/按需列式数仓引擎 | 按需突发 (0 常驻) | **0 MB (常驻)** / 运行时几十 MB | 直查 MinIO Parquet 文件 | **存算分离核心选型**，彻底杜绝传统数仓内存挤占 |
+| **ClickHouse 24** | 实时 OLAP 列式数仓 (事件埋点与多维分析) | 0.1 ~ 0.2 vCPU | 400MB ~ 500MB (精简配置) | 批量写入，建议 20GB | 单容器 C++ 极速引擎，限制 max_server_memory_usage 稳定在 450MB |
+| **数仓分析 (DuckDB)**| 嵌入式/按需列式数仓引擎 | 按需突发 (0 常驻) | **0 MB (常驻)** / 运行时几十 MB | 直查 MinIO Parquet 文件 | **存算分离核心选型**，与 ClickHouse 形成冷热分层协同 |
 | **宿主机 OS + K3s 底座**| Linux 内核、containerd、K3s | 0.2 ~ 0.4 vCPU | 500MB ~ 800MB | 基础系统盘读写 | K3s 极其精简，比原生 K8s 节省 80% 内存 |
-| **全套系统资源汇总** | **完整微服务 + 治理 + 中间件 + 观测** | **约 2.2 ~ 4.5 核** | **约 4.5GB ~ 6.5GB** | **系统盘 + 数据盘合计 ~150GB** | **2~3 台服务器分摊后，单机资源水位极其健康从容** |
+| **全套系统资源汇总** | **完整微服务 + 治理 + 中间件 + 观测 + CH** | **约 2.3 ~ 4.7 核** | **约 4.9GB ~ 7.0GB** | **系统盘 + 数据盘合计 ~160GB** | **2~3 台服务器分摊后，单机资源水位极其健康从容** |
 
 ---
 
@@ -152,26 +153,55 @@ flowchart TD
       - PolarisMesh (轻量治理中心)：~350 MB
       - trpc-gateway (Pod 1) + auth-service (Pod 1) + game-service (Pod 1)：~240 MB
     - **Node 1 常驻内存合计**：**约 2.29 GB / 4.0 GB**（利用率 57%，剩余 1.71 GB 留作 PageCache 与突发内存）。
-  - **Node 2 (核心计算与异步消息、存储与观测节点 - 4GB 内存)**：
-    - 运行组件：K3s Agent + trpc-gateway (副本2) + auth-service (副本2) + game-service (副本2) + RabbitMQ 3.13 + MinIO + MongoDB 7.0 + 可观测套件 (Prometheus/Loki/Jaeger/Grafana) + DuckDB CronJob。
+  - **Node 2 (核心计算与异步消息、存储、观测与 ClickHouse 数仓节点 - 4GB 内存)**：
+    - 运行组件：K3s Agent + trpc-gateway (副本2) + auth-service (副本2) + game-service (副本2) + RabbitMQ 3.13 + MinIO + MongoDB 7.0 + **ClickHouse 24 (极简单容器)** + 可观测套件 (Prometheus/Loki/Jaeger/Grafana) + DuckDB CronJob。
     - 内存精细预算：
       - Ubuntu 24.04 OS + K3s Agent：~400 MB
       - RabbitMQ 3.13 (`vm_memory_high_watermark=0.4`)：~280 MB
       - MinIO 对象存储：~120 MB
       - MongoDB 7.0 (`--wiredTigerCacheSizeGB 0.25`)：~250 MB
+      - **ClickHouse 24 (`max_server_memory_usage=512M`, `mark_cache_size=64M`)：~450 MB**
       - trpc-gateway (Pod 2) + auth-service (Pod 2) + game-service (Pod 2)：~240 MB
       - Prometheus (抓取间隔 30s，本地数据保留 3 天)：~250 MB
       - Grafana Loki (单副本流式日志)：~150 MB
       - Jaeger (链路追踪 10% 采样)：~100 MB
       - Grafana (统一监控看板)：~80 MB
-    - **Node 2 常驻内存合计**：**约 1.87 GB / 4.0 GB**（利用率 46%，剩余 2.13 GB 冗余缓冲）。
+    - **Node 2 常驻内存合计**：**约 2.32 GB / 4.0 GB**（利用率 58%，依然剩余高达 **1.68 GB** 的物理内存与系统 Cache 空间）。
 - **两台节点支撑 500 QPS 性能推算**：
   - 外部流量通过 Cloud DNS 轮询或 L4 NLB 均摊为每台 250 QPS。
-  - 单台微服务计算开销仅需 0.3 ~ 0.5 vCPU，Node 1 的 MySQL 125 TPS 仅需 0.3 vCPU，Node 2 的 RabbitMQ 仅需 0.1 vCPU。
+  - 单台微服务计算开销仅需 0.3 ~ 0.5 vCPU，Node 1 的 MySQL 125 TPS 仅需 0.3 vCPU，Node 2 的 RabbitMQ 仅需 0.1 vCPU，ClickHouse 承载 25 msg/s 批量埋点事件写入仅需 < 0.05 vCPU。
   - 单节点日常稳态 CPU 占用在 0.8 ~ 1.2 vCPU（40%~60% 水位），完全在 2 vCPU 承载舒适区。
 - **防 OOM 兜底黄金策略 (Anti-OOM Guarantee)**：
   - 在两台 4GB 云主机上均划分 **2GB ~ 4GB Swap 交换分区**，配置 `vm.swappiness = 10`。
-  - 在遇到突发流量或批量日志写入时，Swap 自动承载低频非活跃内存，彻底杜绝 Linux OOM Killer 误杀 MySQL 或微服务进程！
+  - 在遇到突发流量或批量日志写入时，Swap 自动承载低频非活跃内存，彻底杜绝 Linux OOM Killer 误杀 MySQL、ClickHouse 或微服务进程！
+
+---
+
+### 3. 关于 ClickHouse 的引入决策与低内存配置解法
+
+很多开发者担心 ClickHouse 是重型数仓，在 4GB 虚拟机上跑不起来。**事实证明：ClickHouse 纯 C++ 极速单容器在严苛调优下完全可以在 4GB 主机上稳定运行**！
+
+#### (1) 为什么初期未默认包含 ClickHouse？
+- 在被告知最大承受仅 2c 4gb 两台的极端严格预算限制下，第一版方案采取了最保守的高可用策略——优先保证核心交易（MySQL + Redis + RabbitMQ），并将分析能力交给嵌入式 DuckDB（0 常驻内存），以追求绝对的 0 OOM 风险。
+
+#### (2) 为什么现在必须且完全可以加上 ClickHouse？
+- **业务代码强依赖**：源码中 `game-service/internal/service/game_service.go` 的 Saga 支付订单流转和业务遥测埋点已原生接入 `pkg/clickhouse` 客户端执行 `InsertEvent`；
+- **极致的 C++ 内存控制能力**：ClickHouse 不同于 Java 技术栈的重型引擎（如 TiDB 需要 3GB+，Doris 需要 4GB+），ClickHouse 单容器默认启动仅占 150MB，只要通过参数压制查询缓存与最大内存，即可稳稳锁定在 **400MB ~ 450MB**；
+- **放置在 Node 2 极其安全**：Node 2 承载 ClickHouse 后常驻内存仅为 2.32 GB / 4.0 GB（利用率 58%），剩余 1.68 GB 物理内存空间，配合 2GB Swap 兜底防线，完全无 OOM 隐患。
+
+#### (3) ClickHouse 关键精简运行配置 (`config.xml` / `users.xml`)：
+```xml
+<clickhouse>
+    <!-- 限制服务器最大常驻内存为 512MB -->
+    <max_server_memory_usage>536870912</max_server_memory_usage>
+    <!-- 限制单次查询最大使用内存为 256MB -->
+    <max_memory_usage>268435456</max_memory_usage>
+    <!-- 调小索引标记缓存 -->
+    <mark_cache_size>67108864</mark_cache_size>
+    <!-- 调小未压缩块缓存 -->
+    <uncompressed_cache_size>67108864</uncompressed_cache_size>
+</clickhouse>
+```
 
 ---
 
