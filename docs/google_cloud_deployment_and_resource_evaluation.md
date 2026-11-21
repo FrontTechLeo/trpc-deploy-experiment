@@ -205,6 +205,29 @@ flowchart TD
 
 ---
 
+### 4. 扩展场景：未来若引入 1核 1GB 小服务器的战略定位与接入指南
+
+如果后续在 2c 4gb 双机基础上**新增一台 1核 1GB (1c 1g) 的小服务器**，完全可以接入，且具备极高的架构性价比：
+
+#### (1) 最大战略价值：成为第 3 个奇数 etcd 仲裁节点 (Quorum Arbiter)
+- **解决 2 节点痛点**：分布式一致性协议（etcd）需要 $2N+1$ 奇数节点防脑裂。将 1c 1g 机器作为 **纯仲裁节点（仅运行 etcd，打上 NoSchedule 污点）**，内存仅需 **~100MB**，用极低成本（几美元/月）使集群立刻具备企业级 3 节点强一致容灾与自动故障转移能力。
+
+#### (2) 业务用途：公网边缘安全反向代理 (Edge Proxy)
+- 仅运行极轻量 Nginx 或 Envoy，专门负责处理公网 SSL/TLS 卸载、防刷与外网流量接入，内网转发至 Node 1/2。
+- **好处**：将存放核心业务与数据库的 Node 1/2 全部移至 VPC 内网，外网安全性大幅提升。
+
+#### (3) 1c 1g 接入红线与防 OOM 配置
+- **严禁调度**：严禁在 1c 1g 机器上调度 MySQL、ClickHouse、RabbitMQ、MongoDB 或 Prometheus。
+- **安全污点与隔离**：
+  ```bash
+  kubectl label nodes node-3 tier=lightweight
+  kubectl taint nodes node-3 dedicated=lightweight:NoSchedule
+  ```
+  只有声明了相应 tolerations 的微服务副本或边缘网关才允许运行在上面。
+- **挂载 Swap**：必须配置 1GB ~ 2GB Swap 分区（`vm.swappiness=10`），杜绝系统进程 OOM。
+
+---
+
 ## 四、 Google Cloud 选型与低成本省钱策略
 
 在 Google Cloud 上部署，控制成本的关键在于**合理的机型家族选型、磁盘类型配置、网络计费优化与购买策略**：
