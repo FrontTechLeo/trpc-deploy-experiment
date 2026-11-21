@@ -30,6 +30,11 @@
 
 ## 核心方案文档索引
 
+- [**Google Cloud 2~3 节点服务器真实部署与资源消耗评估方案 (GCP Sizing & Multi-Node Architecture Guide)**](docs/google_cloud_deployment_and_resource_evaluation.md)
+  - 针对 500 QPS Web 服务访问的云端真实落地评估
+  - 核心组件资源消耗测算（网关、tRPC 微服务、Polaris、MySQL、Redis、RabbitMQ、MinIO、MongoDB、可观测套件）
+  - 2~3 节点多机多节点协同与容灾拓扑设计（3 节点 etcd 高可用仲裁与故障漂移）
+  - Google Cloud 极致低成本省钱策略与预算清单（E2 系列、pd-balanced 磁盘、L4 NLB、CUD 预留折扣，总成本低至 ~$140/月）
 - [**本地部署全套 tRPC-Go 微服务与生产级治理体系最终实施方案 (Final Master Plan)**](docs/final_execution_plan_trpc_microservices.md)
   - 核心架构全景：K3s + PolarisMesh + trpc-gateway + 可观测套件 + 双大盘体系
   - 最终确定技术选型全景矩阵、端口规划与 16GB 宿主机资源预算（总计 ~4.7GB 内存）

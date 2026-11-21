@@ -7,6 +7,8 @@
 ## 目录索引
 
 ### 1. 核心架构规划
+- [**Google Cloud 2~3 节点服务器真实部署与资源消耗评估方案 (GCP Sizing & Multi-Node Architecture Guide)**](google_cloud_deployment_and_resource_evaluation.md)  
+  *针对上云真实部署诉求，提供支撑 500 QPS Web 服务访问的 Google Cloud 机器选型（e2-standard-2）、各核心服务（微服务/网关/MySQL/Redis/MQ/MinIO/可观测性）资源消耗量化测算、2~3 节点高可用拓扑分布与低成本优化组合（总成本仅 ~$140/月）。*
 - [**本地部署全套 tRPC-Go 微服务与生产级治理体系最终实施方案 (Final Master Plan)**](final_execution_plan_trpc_microservices.md)  
   *【最终定稿执行方案 v2.2.0】确立以 K3s 为底座，PolarisMesh 为治理控制面，trpc-gateway 为接入网关，Prometheus/Loki/Jaeger 为可观测平台，“Drone CI 构建大盘 + ArgoCD/Rollouts 灰度自愈大盘”双大盘闭环，以及多模存储（MySQL/Redis/RabbitMQ/MinIO/MongoDB）与复杂报表套件（TiDB + ClickHouse）的六阶段实施路线图。*
 - [**DuckDB 分布式与多机支持深度解析：架构边界、演进形态与选型决策 (DuckDB Distributed & Multi-Node Guide)**](duckdb_distributed_and_multi_node_analysis.md)  
