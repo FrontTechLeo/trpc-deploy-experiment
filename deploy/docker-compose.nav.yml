@@ -1,0 +1,10 @@
+services:
+  nav-dashboard:
+    build:
+      context: ../services/nav-dashboard
+      dockerfile: Dockerfile
+    image: gametool/nav-dashboard:latest
+    container_name: local-nav-dashboard
+    restart: always
+    ports:
+      - "8888:80"

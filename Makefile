@@ -1,9 +1,11 @@
-.PHONY: help infra-up infra-down monitor-up monitor-down analytics-up analytics-down all-up all-down proto-lint proto-gen migrate-up migrate-down duckdb-test build test test-e2e clean
+.PHONY: help infra-up infra-down monitor-up monitor-down analytics-up analytics-down nav-up nav-down all-up all-down proto-lint proto-gen migrate-up migrate-down duckdb-test build test test-e2e clean
 
 export PATH := $(PATH):$(HOME)/Softwares/gopath/bin
 
 help:
 	@echo "tRPC-Go 本地部署环境快捷管理指令:"
+	@echo "  make nav-up        - 启动基础服务 WebUI 统一导航控制台 (8888 端口)"
+	@echo "  make nav-down      - 停止导航控制台"
 	@echo "  make infra-up      - 启动基础治理套件 (Polaris, Redis, MySQL, RabbitMQ, MinIO, MongoDB)"
 	@echo "  make infra-down    - 停止基础治理套件"
 	@echo "  make monitor-up    - 启动可观测套件 (Prometheus, Jaeger, Loki, Grafana)"
@@ -20,6 +22,12 @@ help:
 	@echo "  make build         - 编译 auth-service 与 tRPC-Gateway 二进制"
 	@echo "  make test          - 运行微服务单元测试"
 	@echo "  make test-e2e      - 执行阶段二全链路集成测试 (HTTP -> Gateway -> tRPC -> DB/Redis)"
+
+nav-up:
+	docker compose -f deploy/docker-compose.nav.yml up -d --build
+
+nav-down:
+	docker compose -f deploy/docker-compose.nav.yml down
 
 infra-up:
 	docker compose -f deploy/docker-compose.infra.yml up -d

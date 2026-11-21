@@ -109,6 +109,22 @@
 
 ---
 
+## 统一运维导航控制台 (WebUI Navigation Dashboard)
+
+为方便快速运维与一站式访问全套基础组件，本项目提供了专用的 **基础服务 WebUI 统一导航控制台**：
+- **浏览器访问入口**：👉 **`http://localhost:8888`**（局域网直达：`http://192.168.137.240:8888`）
+- **核心功能**：
+  - 分类汇聚展示 CI/CD 交付发布（ArgoCD、Argo Rollouts、Gitea、Drone CI）、服务治理（PolarisMesh）、消息与存储（RabbitMQ、MinIO、MySQL、TiDB、Redis）、可观测性（Grafana、Prometheus、Jaeger、ClickHouse、DuckDB）及业务网关入口。
+  - 动态 Host 自动识别与切换（适应任意局域网 IP / 域名）。
+  - 各服务账号与密码一键复制、直达链接与快速搜索过滤。
+- **启动与管理**：
+  ```bash
+  make nav-up    # 启动导航大盘服务 (8888 端口)
+  make nav-down  # 停止导航大盘服务
+  ```
+
+---
+
 ## 快速开始 (快速概览)
 
 1. **环境准备**：
