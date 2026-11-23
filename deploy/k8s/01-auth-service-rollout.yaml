@@ -49,7 +49,7 @@ spec:
       stableService: auth-service-stable
       steps:
         - setWeight: 25
-        - pause: { duration: 10s }
+        - pause: { duration: 30s }
         - setWeight: 50
-        - pause: { duration: 10s }
+        - pause: { duration: 30s }
         - setWeight: 100
