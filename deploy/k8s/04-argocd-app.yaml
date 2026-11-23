@@ -8,8 +8,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/FrontTechLeo/trpc-deploy-experiment.git
-    targetRevision: HEAD
+    repoURL: http://192.168.137.240:3000/gitea_admin/trpc-deploy-experiment.git
+    targetRevision: main
     path: deploy/k8s
   destination:
     server: https://kubernetes.default.svc
